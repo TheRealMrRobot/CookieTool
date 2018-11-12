@@ -26,7 +26,7 @@ class CookieDatabase:
 
     # Shows info about the cookie-data (TERMINAL)
     def printDatabase(self):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         entry_counter = 0
@@ -64,7 +64,7 @@ class CookieDatabase:
 
     # Saves the most important Data
     def saveImportantDatabase(self):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         data_list = []
@@ -80,7 +80,7 @@ class CookieDatabase:
 
     # Saves the complete Data
     def saveCompleteDatabase(self):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_COMPLETE)
         data_list = []
@@ -96,7 +96,7 @@ class CookieDatabase:
 
     # Returns a String with INFO
     def getInfo(self):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies2.sqlite")
+        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         entry_counter = 0
@@ -130,6 +130,59 @@ class CookieDatabase:
                 "\n[-] UNSCECURE Cookies: " + str(unsecure) + "\n")
 
 
+    # Returns a String with INFO -> R E P O R T
+    def getReport(self):
+        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        c = conn.cursor()
+        db = c.execute(self.SELECT_IMPORTANT)
+        entry_counter = 0
+        site_counter = 0
+        sites = []
+        unique_counter = 0
+        unique_names = []
+        secure = 0
+        unsecure = 0
+        cookies_string = ""
+        sites_string = ""
+
+
+        for row in db:
+            entry_counter += 1
+
+            if row[0] not in unique_names:
+                unique_names.append(row[0])
+                unique_counter += 1
+
+
+            if row[1] not in sites:
+                sites.append(row[1])
+                site_counter += 1
+
+            if row[2] == 1:
+                secure += 1
+            else:
+                unsecure += 1
+
+
+        unique_names.sort()
+        sites.sort()
+
+
+        for entry in unique_names:
+            cookies_string += entry + "\n"
+
+        for site in sites:
+            sites_string += site + "\n"
+
+        return ("TOTAL Cookies: " + str(entry_counter) +
+                "\nUNIQUE Cookies: " + str(unique_counter) +
+                "\nUNIQUE Sites: " + str(site_counter) +
+                "\nSECURE Cookies: " + str(secure) +
+                "\nUNSCECURE Cookies: " + str(unsecure) + "\n" +
+                "\nC O O K I E S : \n" + cookies_string + "\n\n\n\n\n\n" + ("#"*50) +
+                "\n S I T E S : \n" + sites_string)
+
+
     # Returns a String with DATABASE
     def getDatabase(self):
         conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
@@ -153,6 +206,41 @@ class CookieDatabase:
         return database_string
 
 
+    # Returns a String with all INFO for a SINGLE given ID:
+    def getSelectedEntryInfo(self, filter, text):
+        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        c = conn.cursor()
+        self.find_this = text
+
+        # Could be changed according to the needs..
+        self.SELECT_ID = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly, path FROM moz_cookies WHERE id == %s' % (self.find_this)
+        result_string = ""
+
+        if filter == 1:
+            db = c.execute(self.SELECT_ID)
+            db = c.fetchone()       # Fetches only one ID -> there is only one for each ID!
+        elif filter == 2:
+            pass
+        elif filter == 3:
+            pass
+
+        if db == None:
+            print("[X] NOTHING FOUND!\n")
+            return "NOTHING FOUND!\n"
+        else:
+            result_string = "ID: \t\t" + str(db[0]) + "\n"
+            result_string += "LAST_ACCESSED: \t" + dt.datetime.fromtimestamp(db[5] / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
+            result_string += "EXPIRATION: \t\t" + dt.datetime.fromtimestamp((db[5] + db[4]) / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
+            result_string += "SECURE: \t\t" + str(db[6]) + "\n"
+            result_string += "HTTP: \t\t" + str(db[7]) + "\n"
+            result_string += "HOST: \t\t" + str(db[3]) + "\n"
+            result_string += "PATH: \t\t" + str(db[8]) + "\n"
+            result_string += "NAME: \t\t" + str(db[2]) + "\n"
+            result_string += "VALUE: \t\t" + str(db[1]) + "\n"
+            print("[!] RESULT: \n############\n" + result_string)
+
+        return result_string
+
 
     # Returns only matching results for any given String (ID, NAME, HOST)
     def getSelectedEntries(self, filter, text):
@@ -174,7 +262,7 @@ class CookieDatabase:
         elif filter == 3:
             db = c.execute(self.SELECT_HOST)
 
-        if c.fetchone() is None:
+        if db is None:
             print("\n[X] NOTHING FOUND!")
             return "NOTHING FOUND!"
         else:

@@ -127,7 +127,7 @@ class Delete(tk.Frame):
         self.remove_visible.pack()
         self.remove_entry.pack()
 
-        self.search_field.bind("Return", self.searchForEntries())
+        self.search_field.bind("<Return>", self.searchForEntries)
 
 
     # Checks the given state and selects or deselects the choice.
@@ -152,11 +152,7 @@ class Delete(tk.Frame):
     # Creates new functional Window
     def createWindow(self, x_movement, title, wid, hei):
         root = tk.Tk()
-        #self.ROOT = root
-
-        # EVENTUELL :
         root.title("Cookie Data - " + title)
-
         w = wid   # width for the Tk root
         h = hei  # height for the Tk root
 
@@ -175,20 +171,16 @@ class Delete(tk.Frame):
         return root
 
 
-    # Checks selected RadioButton and TextEntry -> gives it to loadData
-    def searchForEntries(self):
+    # Checks selected RadioButton and TextEntry -> gives it to loadData (EVENT because of ENTER KEY Support!)
+    def searchForEntries(self, event=None):
         self.search_text = self.search_field.get()
 
         if (self.search_text == "") == False:
-            print("[<] TEXT has been entered!")
+            print("[<] '%s' has been entered!" % self.search_text)
             self.text_space.delete('1.0', tk.END)
             self.id_state = self.var_idty.get()
             self.name_state = self.var_name.get()
             self.host_state = self.var_host.get()
-            print("[INFO]:")
-            print("[!] ID-STATE: " + str(self.id_state))
-            print("[!] NAME-STATE: " + str(self.name_state))
-            print("[!] HOST-STATE: " + str(self.host_state))
 
             # Should load the data
             self.loadData(self.id_state, self.name_state, self.host_state, self.search_text)

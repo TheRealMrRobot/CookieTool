@@ -85,6 +85,7 @@ Y,.yahoo.com,0
 SSL,.yahoo.com,1
 AO,.yahoo.com,0
 MUIDB,bat.bing.com,0
+cid,.sojern.com,1
 MUIDB,c.bing.com,0
 _ga,.wordpress.com,0
 wordpress_eli,.wordpress.com,0
@@ -733,6 +734,7 @@ __utmz,.linksalpha.com,0
 X1ID,.ru4.com,0
 to_master,dmp.truoptik.com,0
 to_version,dmp.truoptik.com,0
+svResp,.surveywall-api.survata.com,0
 csrftoken,api.instagram.com,1
 _ga,.trello.com,0
 ajs_user_id,.trello.com,0
@@ -1069,6 +1071,8 @@ _ga,.sharelatex.com,0
 __cfduid,.wireshark.org,0
 _ga,.whatis.techtarget.com,0
 _cb_ls,whatis.techtarget.com,0
+_cb,whatis.techtarget.com,0
+_chartbeat2,whatis.techtarget.com,0
 _ga,.searchnetworking.techtarget.com,0
 _cb_ls,searchnetworking.techtarget.com,0
 _cb,searchnetworking.techtarget.com,0
@@ -1539,6 +1543,8 @@ ssid,.linkwithin.com,0
 __cfduid,.lwstatic3.linkwithin.com,0
 _ga,.cisoplatform.com,0
 __unam,.cisoplatform.com,0
+optimizelyEndUserId,.techtarget.com,0
+tt_prereg,.techtarget.com,1
 _ga,.techtarget.com,0
 _ga,.searchsecurity.techtarget.com,0
 _cb_ls,searchsecurity.techtarget.com,0
@@ -1857,6 +1863,7 @@ ibbid,.ibillboard.com,0
 tuuid,rtb.4finance.com,0
 tuuid_last_update,rtb.4finance.com,0
 bsw_uid,rtb.4finance.com,0
+dyn_u,.dyntrk.com,0
 zuid,.zemanta.com,0
 _ga,.gutefrage.net,0
 axd,www.gutefrage.net,0
@@ -2093,6 +2100,11 @@ MintUnique,.mint.macobserver.com,0
 MintUniqueLocation,.mint.macobserver.com,0
 _ga,.macobserver.com,0
 __qca,.macobserver.com,0
+s_vnum_n2_us,.apple.com,0
+s_vi,.apple.com,0
+s_fid,.apple.com,0
+dssid2,.apple.com,0
+dssf,.apple.com,0
 _ga,.forums.macrumors.com,0
 _gaTest,.macrumors.com,0
 KRTBCOOKIE_153,.pubmatic.com,0
@@ -2204,6 +2216,7 @@ RUID,.mmtro.com,0
 _cs_c,.centerparcs.de,0
 _cs_id,.centerparcs.de,0
 vngage.lkvt,www.centerparcs.de,0
+nfvdid,.netflix.com,0
 sidebar_collapsed,gitlab.com,0
 __cfduid,.truecaller.com,0
 _ga,.truecaller.com,0
@@ -2218,6 +2231,7 @@ pa_openx_ts,.prfct.co,0
 __qca,.twilio.com,0
 pa_google_ts,.prfct.co,0
 pa_yahoo_ts,.prfct.co,0
+pa_uid,.prfct.co,0
 ki_t,www.twilio.com,0
 ki_r,www.twilio.com,0
 _hp2_id.1541905715,.twilio.com,0
@@ -2283,6 +2297,8 @@ cu,.ipredictive.com,0
 OX_u,.justpremium.com,0
 pid,.smartadserver.com,0
 pdomid,.smartadserver.com,0
+opt,.ctnsnet.com,0
+cid,.ctnsnet.com,0
 RUN_ID,match.rundsp.com,0
 uid-bp-617,ads.stickyadstv.com,0
 tr_id,.vtracy.de,0
@@ -2372,6 +2388,10 @@ _ga,.plnkr.co,0
 __utma,.plnkr.co,0
 __utmz,.plnkr.co,0
 __atuvc,plnkr.co,0
+SecureNetflixId,.netflix.com,1
+NetflixId,.netflix.com,0
+playerPerfMetrics,.netflix.com,0
+memclid,.netflix.com,0
 GAPS,accounts.google.com,1
 Conversion,www.googleadservices.com,0
 Conversion,www.googleadservices.com,0
@@ -2394,6 +2414,8 @@ wfivefivec,.w55c.net,0
 optimizelyEndUserId,.searchnetworking.de,0
 tt_prereg,.searchnetworking.de,1
 co,.searchnetworking.de,1
+bk,.techtarget.com,0
+co,.techtarget.com,0
 _ceg.s,.searchnetworking.de,0
 _ceg.u,.searchnetworking.de,0
 _ga,.searchnetworking.de,0
@@ -2556,6 +2578,8 @@ sess-at-acbde,.amazon.de,1
 sst-acbde,.amazon.de,1
 _gt,caniuse.com,0
 _ga,.caniuse.com,0
+logged_in,.github.com,1
+dotcom_user,.github.com,1
 ajs_anonymous_id,.atlassian.com,0
 _sio,.atlassian.com,0
 __atl_path,.atlassian.com,0
@@ -2722,6 +2746,7 @@ _mkto_trk,.getpostman.com,0
 _ga,.getpostman.com,0
 _ga,.app.getpostman.com,0
 _gcl_au,.bluestacks.com,0
+wcs_bt,www.bluestacks.com,0
 _ga,.bluestacks.com,0
 VID,.mail.ru,0
 __cfduid,.gracza.pl,1
@@ -2885,6 +2910,8 @@ obuid,.outbrain.com,0
 _ofcap_DOC1,.outbrain.com,0
 _cb,www.heise.de,0
 _chartbeat2,www.heise.de,0
+wt3_eid,.heise.de,1
+wt_rla,.heise.de,1
 _pk_ref.6.8a80,bibliothek.fhws.de,0
 demdex,.demdex.net,0
 AMCV_8E929CC25A1FB2B30A495C97%40AdobeOrg,.ieee.org,0
@@ -2934,6 +2961,10 @@ session-id-time,.amazon.de,0
 session-id,.amazon.de,0
 ubid-acbde,.amazon.de,0
 AID,.googleadservices.com,0
+WMF-Last-Access,de.wikipedia.org,1
+WMF-Last-Access-Global,.wikipedia.org,1
+WMF-Last-Access,meta.wikimedia.org,1
+WMF-Last-Access,login.wikimedia.org,1
 _pk_id.16.41c1,myshadow.org,1
 optimizelyEndUserId,.computerbild.de,0
 cobi_ubid_hash,.computerbild.de,0
@@ -2953,6 +2984,7 @@ _sp_v1_ss,spiegel-de.spiegel.de,0
 _sp_v1_opt,spiegel-de.spiegel.de,0
 _sp_v1_csv,spiegel-de.spiegel.de,0
 _sp_v1_lt,spiegel-de.spiegel.de,0
+VISITOR_INFO1_LIVE,.youtube.com,0
 puu,.pons.com,0
 __cfduid,.pons.com,0
 last_bilingual,.pons.com,0
@@ -2963,6 +2995,11 @@ ff01,.pons.com,0
 xdefcc,.pons.com,0
 TAID,.google.com,1
 AID,.google.com,1
+ST-vex6dy,.youtube.com,0
+SNID,.google.de,1
+NID,.google.de,0
+DV,www.google.de,0
+1P_JAR,.google.de,0
 loid,.reddit.com,1
 token,.reddit.com,1
 rseor3,.reddit.com,1
@@ -2976,7 +3013,9 @@ m-tz,.quora.com,1
 m-css_v,.quora.com,1
 m-b,.quora.com,1
 m-s,.quora.com,1
-__cfduid,.blog.ipswitch.com,0
-optimizelyEndUserId,.ipswitch.com,0
-dwf_contrib_beta,developer.mozilla.org,1
-dwf_sg_task_completion,developer.mozilla.org,1
+acct,.stackoverflow.com,1
+DV,www.google.com,1
+OGP,.google.com,1
+SNID,.google.com,1
+NID,.google.com,1
+1P_JAR,.google.com,1

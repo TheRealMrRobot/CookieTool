@@ -63,7 +63,7 @@ app = Structure()
 app.title("Cookie Data - Menu")
 
 w = 420 # width for the Tk root
-h = 320 # height for the Tk root
+h = 380 # height for the Tk root
 
 # get screen width and height
 ws = app.winfo_screenwidth() # width of the screen
@@ -75,7 +75,12 @@ y = (hs/2) - (h/2)
 
 # set the dimensions of the screen
 # and where it is placed
+#app.iconbitmap(r'/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/pic/Cookie.ico')
 app.geometry('%dx%d+%d+%d' % (w, h, x+275, y))
+
+# V  THIS right here is defining the logo of the app (MAC OS -> Instead of TKinter Feather!)
+img = tk.PhotoImage(file='/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/pic/Cookie.gif')
+app.tk.call('wm', 'iconphoto', app._w, img)
 
 # Run the instance!
 try:
