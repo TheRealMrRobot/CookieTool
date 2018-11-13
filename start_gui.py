@@ -41,7 +41,7 @@ class Structure(tk.Tk):
                                               # nsew = North South East West
             frame.grid(row=0, column=0, sticky="nsew")      # Position the frame inside the window
 
-        print("[+] GUI READY!")
+        print("[+] GUI READY!\n\n")
 
         # Bring up the given frame
         self.show_frame(Menu.Menu)
@@ -59,8 +59,9 @@ class Structure(tk.Tk):
 ################################################################################
 
 # New instance of Type: Structure()
-app = Structure()
+app = Structure(className="Cookle")
 app.title("Cookie Data - Menu")
+#app.name("Cookle")
 
 w = 420 # width for the Tk root
 h = 380 # height for the Tk root
@@ -76,7 +77,7 @@ y = (hs/2) - (h/2)
 # set the dimensions of the screen
 # and where it is placed
 #app.iconbitmap(r'/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/pic/Cookie.ico')
-app.geometry('%dx%d+%d+%d' % (w, h, x+275, y))
+app.geometry('%dx%d+%d+%d' % (w, h, x+460, y))
 
 # V  THIS right here is defining the logo of the app (MAC OS -> Instead of TKinter Feather!)
 img = tk.PhotoImage(file='/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/pic/Cookie.gif')

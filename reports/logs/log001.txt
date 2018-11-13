@@ -1,0 +1,372 @@
+TERMINAL LOG of „Search 4 Tracker“:
+
+[+] STARTING GUI...
+[DESIGN] MENU DESIGN COLOR: deepskyblue
+[DESIGN] INFO DESIGN COLOR: deepskyblue
+[DESIGN] DELETE DESIGN COLOR: deepskyblue
+[+] GUI READY!
+
+[<] SELECTED - HOST
+[<] 'imrworldwide.com' has been entered!
+[>] Found [1] Entries.
+
+[<] 'doubleclick.com' has been entered!
+[>] Found [0] Entries.
+
+[<] 'Doubleclick.com' has been entered!
+[>] Found [0] Entries.
+
+[<] 'Doubleclick.net' has been entered!
+[>] Found [1] Entries.
+
+Searching ID: 121857...
+[!] RESULT:
+############
+ID: 		121857
+LAST_ACCESSED: 	07.10.2018-20:05:53
+EXPIRATION: 		07.10.2018-20:32:07
+SECURE: 		0
+HTTP: 		1
+HOST: 		.doubleclick.net
+PATH: 		/
+NAME: 		IDE
+VALUE: 		AHWqTUkDcHBg-LITD0qmkU51mZnSYRuIzhz_-ZlZrWZfzNZgXj7rw-nksVwr0D1S
+
+[<] 'twimg.com' has been entered!
+[>] Found [0] Entries.
+
+[<] 'USA.gov' has been entered!
+[>] Found [0] Entries.
+
+[<] 'google.com' has been entered!
+[>] Found [34] Entries.
+
+[*] SAVED IMPORTANT DATA: ~/data/important_cookie_data.csv
+[*] SAVED COMPLETE DATA: ~/data/complete_cookie_data.csv
+
+
+[<] 'twitter.com' has been entered!
+[>] Found [8] Entries.
+
+Searching ID: 40363...
+[!] RESULT:
+############
+ID: 		40363
+LAST_ACCESSED: 	09.10.2018-11:27:55
+EXPIRATION: 		09.10.2018-11:54:01
+SECURE: 		0
+HTTP: 		0
+HOST: 		.twitter.com
+PATH: 		/
+NAME: 		personalization_id
+VALUE: 		"v1_lRxSqZzy8qRjiS0MTlyjMw=="
+
+[<] 'scoredcardresearch' has been entered!
+[>] Found [0] Entries.
+
+[<] 'scoredcard' has been entered!
+[>] Found [0] Entries.
+
+[<] 'score' has been entered!
+[>] Found [3] Entries.
+
+[<] 'scorecard' has been entered!
+[>] Found [2] Entries.
+
+[<] 'atwola.com' has been entered!
+[>] Found [0] Entries.
+
+[<] 'facebook' has been entered!
+[>] Found [6] Entries.
+
+[<] 'atwola' has been entered!
+[>] Found [0] Entries.
+
+[<] SELECTED - ID
+
+[<] SELECTED - HOST
+
+[<] SELECTED - ID
+
+[<] SELECTED - HOST
+[<] 'advertis' has been entered!
+[>] Found [4] Entries.
+
+[<] 'adtechus.com' has been entered!
+[>] Found [3] Entries.
+
+[<] 'adnxs.com' has been entered!
+[>] Found [1] Entries.
+
+[<] 'quantserve' has been entered!
+[>] Found [2] Entries.
+
+Searching ID: 55718...
+[!] RESULT:
+############
+ID: 		55718
+LAST_ACCESSED: 	07.10.2018-19:42:00
+EXPIRATION: 		07.10.2018-20:07:53
+SECURE: 		0
+HTTP: 		0
+HOST: 		.quantserve.com
+PATH: 		/
+NAME: 		mc
+VALUE: 		5a818694-a934d-77a93-925a1
+
+Searching ID: 122469...
+[!] RESULT:
+############
+ID: 		122469
+LAST_ACCESSED: 	07.10.2018-19:42:00
+EXPIRATION: 		07.10.2018-20:07:47
+SECURE: 		0
+HTTP: 		0
+HOST: 		.quantserve.com
+PATH: 		/
+NAME: 		d
+VALUE: 		EJYBigEB7huB_BAN-TLCmRvvg-sZ2H_Ey_sYwr73rhuLot6TyKwg7eHO4p9KGfkt_imfHO4qiEvuLugQyNENrYILyfPob7r06qI
+
+Searching ID: 108275...
+[!] RESULT:
+############
+_ID_:		108275
+_LAST_ACCESS_: 	20.08.2018-16:27:49
+_EXPIRATION_: 		20.08.2018-16:54:26
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		.mfadsrvr.com
+_PATH_: 		/
+_NAME_: 		tuuid
+_VALUE_: 		6f9e8122-ec89-4df7-98a8-726fe7dd892f
+
+
+[<] SELECTED - HOST
+[<] 'openx' has been entered!
+[>] Found [1] Entries.
+
+[<] 'openx.net' has been entered!
+[>] Found [1] Entries.
+
+[<] 'yahoo' has been entered!
+[>] Found [13] Entries.
+
+Searching ID: 265000...
+[X] NOTHING FOUND!
+
+Searching ID: 26500...
+[!] RESULT:
+############
+_ID_:		26500
+_LAST_ACCESS_: 	25.09.2018-23:27:23
+_EXPIRATION_: 		25.09.2018-23:53:19
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		.yahoo.com
+_PATH_: 		/
+_NAME_: 		Y
+_VALUE_: 		v=1&n=71gct7r9rrif3&l=pnee52kflo1p63m2tv46c4ohahgos7pcnikgcw3w/o&p=o2v000000000000&r=11t&lg=de-DE&intl=de
+
+Searching ID: 26496...
+[!] RESULT:
+############
+_ID_:		26496
+_LAST_ACCESS_: 	25.09.2018-23:27:23
+_EXPIRATION_: 		25.09.2018-23:53:19
+_SECURE_: 		0
+_HTTP_: 		1
+_HOST_: 		.yahoo.com
+_PATH_: 		/
+_NAME_: 		T
+_VALUE_: 		z=oVI/YBopvDZBMoWfUe1Uv4u&a=QAE&sk=DAA/oYTlFvz/8h&ks=EAAPoPljd.hM2xhpntnqEiqxw--~F&kt=EAAPy0s6uZdtx2WF2YSeXWfcw--~I&ku=FAAsfm6k8dnYyhvpHigX_ER9B6ejP3qaq.GktLb6D_HrQOpF3xq2tjyKG8k8zxFy7vy1hvZHMFjAoM4GYdT6yPCdmwoQml8fa.6ai0JJo2BGfoFgORxUAHV4ad0jny6EjAtc2ceFz7tEzUn5KdUq.xMdfZhTzEcj2rghBn_IGhLIps-~A&d=ZwFWN1hZVkI1Q0pCNlI2RzZPQ1g3M1lPQ1hPWQFhAVFBRQFhYwFBQXZEMWRJZAFhbAFtYXgua2FybGNoZW5Ad2ViLmRlAXNjAW1icl9yZWdpc3RyYXRpb24BZnMBUDg5YUFKNVlfSVZvAXp6AW9WSS9ZQkE3RQ--&af=JnRzPTE0OTI5NDQyMzImcHM9R2xNX3FsZ1Y1RkxRc0xJMmk1SnptQS0t
+
+[<] 'videohub' has been entered!
+[>] Found [0] Entries.
+
+[<] 'stickyadstv' has been entered!
+[>] Found [7] Entries.
+
+Searching ID: 111007...
+[!] RESULT:
+############
+_ID_:		111007
+_LAST_ACCESS_: 	20.09.2018-13:47:06
+_EXPIRATION_: 		20.09.2018-14:12:46
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		ads.stickyadstv.com
+_PATH_: 		/
+_NAME_: 		uid-bp-617
+_VALUE_: 		9097414948911960267
+
+Searching ID: 111027...
+[!] RESULT:
+############
+_ID_:		111027
+_LAST_ACCESS_: 	20.09.2018-13:47:06
+_EXPIRATION_: 		20.09.2018-14:12:46
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		ads.stickyadstv.com
+_PATH_: 		/
+_NAME_: 		uid-bp-159
+_VALUE_: 		CAESEKEzf10Q99TRGcIa12RIdbo
+
+Searching ID: 111029...
+[!] RESULT:
+############
+_ID_:		111029
+_LAST_ACCESS_: 	20.09.2018-13:47:06
+_EXPIRATION_: 		20.09.2018-14:12:46
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		ads.stickyadstv.com
+_PATH_: 		/
+_NAME_: 		uid-bp-45
+_VALUE_: 		"V3Q8@AAAAOZh0vSB"
+
+Searching ID: 111059...
+[!] RESULT:
+############
+_ID_:		111059
+_LAST_ACCESS_: 	20.09.2018-13:47:06
+_EXPIRATION_: 		20.09.2018-14:12:46
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		ads.stickyadstv.com
+_PATH_: 		/
+_NAME_: 		uid-bp-892
+_VALUE_: 		ce01a84b-07f3-4225-aa3c-1e70f394489f
+
+Searching ID: 111073...
+[!] RESULT:
+############
+_ID_:		111073
+_LAST_ACCESS_: 	20.09.2018-13:47:06
+_EXPIRATION_: 		20.09.2018-14:12:46
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		ads.stickyadstv.com
+_PATH_: 		/
+_NAME_: 		uid-bp-951
+_VALUE_: 		0
+
+Searching ID: 111076...
+[!] RESULT:
+############
+_ID_:		111076
+_LAST_ACCESS_: 	20.09.2018-13:47:06
+_EXPIRATION_: 		20.09.2018-14:12:46
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		ads.stickyadstv.com
+_PATH_: 		/
+_NAME_: 		uid-bp-529
+_VALUE_: 		df605638-ad61-4200-add5-efd0a198b568
+
+[<] 'sticky' has been entered!
+[>] Found [7] Entries.
+
+[<] 'stickya' has been entered!
+[>] Found [7] Entries.
+
+[<] 'stick' has been entered!
+[>] Found [7] Entries.
+
+[<] 'sti' has been entered!
+[>] Found [40] Entries.
+
+[<] 'twimg' has been entered!
+[>] Found [1] Entries.
+
+[<] 'twimg.co' has been entered!
+[>] Found [0] Entries.
+
+[<] 'twimg' has been entered!
+[>] Found [1] Entries.
+
+[<] 'twimgs' has been entered!
+[>] Found [1] Entries.
+
+[<] 'twimgs.' has been entered!
+[>] Found [1] Entries.
+
+[<] 'twimgs.c' has been entered!
+[>] Found [1] Entries.
+
+Searching ID: 95826...
+[!] RESULT:
+############
+_ID_:		95826
+_LAST_ACCESS_: 	04.07.2018-15:57:44
+_EXPIRATION_: 		04.07.2018-16:23:47
+_SECURE_: 		0
+_HTTP_: 		1
+_HOST_: 		.twimgs.com
+_PATH_: 		/
+_NAME_: 		__cfduid
+_VALUE_: 		d6631716d0611674ad2de43ca02c5c53f1530701154
+
+[<] 'twimg' has been entered!
+[>] Found [1] Entries.
+
+[<] 'lh3' has been entered!
+[>] Found [0] Entries.
+
+[<] 'lh3' has been entered!
+[>] Found [0] Entries.
+
+[<] 'googleuser' has been entered!
+[>] Found [2] Entries.
+
+[<] 'googleuser' has been entered!
+[>] Found [2] Entries.
+
+[<] 'google' has been entered!
+[>] Found [67] Entries.
+
+[<] 'googles' has been entered!
+[>] Found [1] Entries.
+
+[<] 'googleu' has been entered!
+[>] Found [2] Entries.
+
+Searching ID: 62290...
+[!] RESULT:
+############
+_ID_:		62290
+_LAST_ACCESS_: 	07.10.2018-20:09:34
+_EXPIRATION_: 		07.10.2018-20:35:32
+_SECURE_: 		0
+_HTTP_: 		0
+_HOST_: 		.googleusercontent.com
+_PATH_: 		/
+_NAME_: 		__qca
+_VALUE_: 		P0-189124549-1524866759868
+
+[<] 'googlea' has been entered!
+[>] Found [9] Entries.
+
+[<] 'Yimg' has been entered!
+[>] Found [0] Entries.
+
+[<] 'ebay' has been entered!
+[>] Found [27] Entries.
+
+[<] 'ebays' has been entered!
+[>] Found [1] Entries.
+
+[<] 'ebayr' has been entered!
+[>] Found [1] Entries.
+
+[<] 'blue' has been entered!
+[>] Found [7] Entries.
+
+[<] 'bluek' has been entered!
+[>] Found [2] Entries.
+
+[<] 'bluekai' has been entered!
+[>] Found [2] Entries.
+
+[<] 'double' has been entered!
+[>] Found [4] Entries.

@@ -83,7 +83,7 @@ class Info(tk.Frame):
     # Opens up a new window where an ID can be entered in (in order to see all info about a cookie)
     def showInfo(self):
         # root = tk.Tk()
-        info_win = self.createNewWindow(600, "Info", 780, 670)
+        info_win = self.createNewWindow(850, "Info", 282, 360)
         info_frame_top = tk.Frame(info_win)
         info_frame_mid = tk.Frame(info_win)
         info_frame_sub = tk.Frame(info_win)
@@ -113,7 +113,7 @@ class Info(tk.Frame):
         self.info_label.configure(background=self.BACKGROUND_COLOR)
         self.search_entry.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.search_button.configure(highlightbackground=self.BACKGROUND_COLOR)
-        self.result_space.configure(highlightbackground=self.BACKGROUND_COLOR, height=34, width=110, state=tk.NORMAL)
+        self.result_space.configure(highlightbackground=self.BACKGROUND_COLOR, height=14, width=60, state=tk.NORMAL)
         self.general_info.configure(highlightbackground=self.BACKGROUND_COLOR)
 
         self.info_label.pack()
@@ -151,8 +151,8 @@ class Info(tk.Frame):
             self.textField.configure(highlightbackground=self.color)
             self.textField.pack()
             self.DATA_LOADED = True
-            self.database.saveImportantDatabase()
-            self.database.saveCompleteDatabase()
+            #self.database.saveImportantDatabase()
+            #self.database.saveCompleteDatabase()
             self.textField.insert(tk.INSERT, self.database.getInfo())
         else:
             info_win = self.createNewWindow(725, "Info", 420, 320)
@@ -175,7 +175,7 @@ class Info(tk.Frame):
     # Handles new window
     def openCookieGrouping(self):
         # root = tk.Tk()
-        group_win = self.createNewWindow(-450, "Group", 1200, 800)
+        group_win = self.createNewWindow(-450, "Cookle Group", 1200, 800)
         group_frame_top = tk.Frame(group_win)
         group_frame_mid = tk.Frame(group_win)
         group_frame_sub = tk.Frame(group_win)
@@ -293,7 +293,7 @@ class Info(tk.Frame):
         self.amount_string = "Found [" + str(amount) + "] Entries."
         self.text_space.insert(tk.INSERT, result_string)
         self.counter_label.configure(text=self.amount_string)
-        print("\n[>] " + self.amount_string + "\n")
+        print("[>] " + self.amount_string + "\n")
 
 
     # Opens a new window and shows the whole Cookie - Database

@@ -15,6 +15,7 @@ class CookieDatabase:
     SELECT_ALL = "SELECT * FROM moz_cookies"
     SELECT_COMPLETE = "SELECT id, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
     SELECT_IMPORTANT = "SELECT name, host, isSecure FROM moz_cookies;"
+    SELECT_SOMETHING = "SELECT * FROM moz_cookies"
     RESULT_AMOUNT = 0
 
 
@@ -26,7 +27,7 @@ class CookieDatabase:
 
     # Shows info about the cookie-data (TERMINAL)
     def printDatabase(self):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         entry_counter = 0
@@ -64,7 +65,7 @@ class CookieDatabase:
 
     # Saves the most important Data
     def saveImportantDatabase(self):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         data_list = []
@@ -80,7 +81,7 @@ class CookieDatabase:
 
     # Saves the complete Data
     def saveCompleteDatabase(self):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_COMPLETE)
         data_list = []
@@ -96,9 +97,9 @@ class CookieDatabase:
 
     # Returns a String with INFO
     def getInfo(self):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
-        db = c.execute(self.SELECT_IMPORTANT)
+        db = c.execute(self.SELECT_SOMETHING)
         entry_counter = 0
         site_counter = 0
         sites = []
@@ -132,7 +133,7 @@ class CookieDatabase:
 
     # Returns a String with INFO -> R E P O R T
     def getReport(self):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         entry_counter = 0
@@ -185,7 +186,7 @@ class CookieDatabase:
 
     # Returns a String with DATABASE
     def getDatabase(self):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
         db = c.execute(self.SELECT_COMPLETE)
         database_string = "ID \t| NAME \t\t\t\t| HOST \t\t\t\t| LAST ACCESSED\t\t\t| EXPIRATION  \t\t\t |SECURE| HTTP \n"
@@ -208,12 +209,12 @@ class CookieDatabase:
 
     # Returns a String with all INFO for a SINGLE given ID:
     def getSelectedEntryInfo(self, filter, text):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
         self.find_this = text
 
         # Could be changed according to the needs..
-        self.SELECT_ID = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly, path FROM moz_cookies WHERE id == %s' % (self.find_this)
+        self.SELECT_ID = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly, path FROM moz_cookies WHERE id = %s' % (self.find_this)
         result_string = ""
 
         if filter == 1:
@@ -228,15 +229,15 @@ class CookieDatabase:
             print("[X] NOTHING FOUND!\n")
             return "NOTHING FOUND!\n"
         else:
-            result_string = "ID: \t\t" + str(db[0]) + "\n"
-            result_string += "LAST_ACCESSED: \t" + dt.datetime.fromtimestamp(db[5] / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
-            result_string += "EXPIRATION: \t\t" + dt.datetime.fromtimestamp((db[5] + db[4]) / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
-            result_string += "SECURE: \t\t" + str(db[6]) + "\n"
-            result_string += "HTTP: \t\t" + str(db[7]) + "\n"
-            result_string += "HOST: \t\t" + str(db[3]) + "\n"
-            result_string += "PATH: \t\t" + str(db[8]) + "\n"
-            result_string += "NAME: \t\t" + str(db[2]) + "\n"
-            result_string += "VALUE: \t\t" + str(db[1]) + "\n"
+            result_string = "_ID_:\t\t" + str(db[0]) + "\n"
+            result_string += "_LAST_ACCESS_: \t" + dt.datetime.fromtimestamp(db[5] / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
+            result_string += "_EXPIRATION_: \t\t" + dt.datetime.fromtimestamp((db[5] + db[4]) / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
+            result_string += "_SECURE_: \t\t" + str(db[6]) + "\n"
+            result_string += "_HTTP_: \t\t" + str(db[7]) + "\n"
+            result_string += "_HOST_: \t\t" + str(db[3]) + "\n"
+            result_string += "_PATH_: \t\t" + str(db[8]) + "\n"
+            result_string += "_NAME_: \t\t" + str(db[2]) + "\n"
+            result_string += "_VALUE_: \t\t" + str(db[1]) + "\n"
             print("[!] RESULT: \n############\n" + result_string)
 
         return result_string
@@ -244,14 +245,14 @@ class CookieDatabase:
 
     # Returns only matching results for any given String (ID, NAME, HOST)
     def getSelectedEntries(self, filter, text):
-        conn = sqlite3.connect(self.TEST_PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
         self.find_this = text
         result_amount = 0
 
-        self.SELECT_ID = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE id LIKE "%{}%"'.format(self.find_this)
-        self.SELECT_NAME = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE name LIKE "%{}%"'.format(self.find_this)
-        self.SELECT_HOST = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE host LIKE "%{}%"'.format(self.find_this)
+        self.SELECT_ID = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE id LIKE "%{}%"  ORDER BY lastAccessed DESC'.format(self.find_this)
+        self.SELECT_NAME = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE name LIKE "%{}%"  ORDER BY lastAccessed DESC'.format(self.find_this)
+        self.SELECT_HOST = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE host LIKE "%{}%"  ORDER BY lastAccessed DESC'.format(self.find_this)
         database_string = ""
 
         # Check what is selected:
