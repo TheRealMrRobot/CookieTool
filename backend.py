@@ -229,15 +229,15 @@ class CookieDatabase:
             print("[X] NOTHING FOUND!\n")
             return "NOTHING FOUND!\n"
         else:
-            result_string = "_ID_:\t\t" + str(db[0]) + "\n"
-            result_string += "_LAST_ACCESS_: \t" + dt.datetime.fromtimestamp(db[5] / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
-            result_string += "_EXPIRATION_: \t\t" + dt.datetime.fromtimestamp((db[5] + db[4]) / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
-            result_string += "_SECURE_: \t\t" + str(db[6]) + "\n"
-            result_string += "_HTTP_: \t\t" + str(db[7]) + "\n"
-            result_string += "_HOST_: \t\t" + str(db[3]) + "\n"
-            result_string += "_PATH_: \t\t" + str(db[8]) + "\n"
-            result_string += "_NAME_: \t\t" + str(db[2]) + "\n"
-            result_string += "_VALUE_: \t\t" + str(db[1]) + "\n"
+            result_string = "<ID:\t\t" + str(db[0]) + "\n"
+            result_string += "<LAST_ACCESS: \t\t" + dt.datetime.fromtimestamp(db[5] / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
+            result_string += "<EXPIRATION: \t\t" + dt.datetime.fromtimestamp((db[5] + db[4]) / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
+            result_string += "<SECURE: \t\t" + str(db[6]) + "\n"
+            result_string += "<HTTP: \t\t" + str(db[7]) + "\n"
+            result_string += "<HOST: \t\t" + str(db[3]) + "\n"
+            result_string += "<PATH: \t\t" + str(db[8]) + "\n"
+            result_string += "<NAME: \t\t" + str(db[2]) + "\n"
+            result_string += "<VALUE: \t\t" + str(db[1]) + "\n"
             print("[!] RESULT: \n############\n" + result_string)
 
         return result_string
@@ -291,3 +291,53 @@ class CookieDatabase:
 
     def getResultCount(self):
         return self.RESULT_AMOUNT
+
+
+    def makeCSV(self, filter, text):
+        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        c = conn.cursor()
+        self.find_this = text
+        result_amount = 0
+        data_row = []
+        data = pd.DataFrame(columns=['ID', 'VALUE', 'NAME', 'HOST', 'ACCESSED', 'EXPIRY', 'SECURE', 'HTTP'], index=None)
+
+        self.SELECT_ID = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE id LIKE "%{}%"  ORDER BY lastAccessed DESC'.format(self.find_this)
+        self.SELECT_NAME = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE name LIKE "%{}%"  ORDER BY lastAccessed DESC'.format(self.find_this)
+        self.SELECT_HOST = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies WHERE host LIKE "%{}%"  ORDER BY lastAccessed DESC'.format(self.find_this)
+
+        # Check what is selected:
+        if filter == 1:
+            db = c.execute(self.SELECT_ID)
+        elif filter == 2:
+            db = c.execute(self.SELECT_NAME)
+        elif filter == 3:
+            db = c.execute(self.SELECT_HOST)
+
+        if db is None:
+            print("\n[X] NOTHING FOUND!")
+            return "NOTHING FOUND!"
+        else:
+            ex_date = ""
+            ac_date = ""
+
+            # BUILD DATABASE Output
+            for row in db:
+                self.RESULT_AMOUNT = 0
+
+                # "WRONG" ORDER! -> normally: 1. expiry  2. access
+                id = str(row[0])
+                value = str(row[1])
+                name = str(row[2])
+                host = str(row[3])
+                ac_date = str(dt.datetime.fromtimestamp(row[5] / 1000000).strftime('%d.%m.%Y-%H:%M:%S'))
+                ex_date = str(dt.datetime.fromtimestamp((row[5] + row[4]) / 1000000).strftime('%d.%m.%Y-%H:%M:%S'))
+                secure = str(row[6])
+                http = str(row[7])
+
+                data_row = [id, value, name, host, ac_date, ex_date, secure, http]
+                data.loc[result_amount] = (data_row)
+                result_amount += 1
+
+
+        self.RESULT_AMOUNT = result_amount
+        return data

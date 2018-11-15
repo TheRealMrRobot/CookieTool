@@ -1,14 +1,16 @@
 import os
+import time
 import tkinter as tk
 import backend as bend          # DataBase & Structure
 import ui_menu as Menu
 import ui_info as Info
+import pandas as pd
 
 
 
 class Group():
 
-    PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
+    PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv/"
     DATA_LOADED = False
     DATABASE_LOADED = False
     H_FONT = ("Verdana", 24, 'bold')
@@ -37,7 +39,7 @@ class Group():
         self.var_name = tk.IntVar()
         self.var_host = tk.IntVar()
         # root = tk.Tk()
-        group_win = self.createNewWindow(-450, "Cookie Group", 1200, 800)
+        group_win = self.createNewWindow(0, -50, "Cookie Group", 1215, 800)
         # CREATING:
         group_frame_top = tk.Frame(group_win)
         group_frame_mid = tk.Frame(group_win)
@@ -65,7 +67,9 @@ class Group():
         self.go_button = tk.Button(group_frame_sub, text="Search", font=self.FONT, width=10, command=lambda: self.searchForEntries())
         # MID widgets:
         self.counter_label = tk.Label(group_frame_sub, text="", font=self.TT_FONT)
-        self.text_space = tk.Text(group_frame_bot)
+        self.scrollbar = tk.Scrollbar(group_frame_bot)
+        self.text_space = tk.Text(group_frame_bot, yscrollcommand=self.scrollbar.set)
+
         # LAST widgets:
         self.csv_label = tk.Label(group_frame_last, text="CSV-Name:", font=self.TT_FONT)
         self.csv_field = tk.Entry(group_frame_last, text="", font=self.TT_FONT)
@@ -89,6 +93,7 @@ class Group():
         # MID widgets:
         self.counter_label.configure(background=self.BACKGROUND_COLOR)
         self.text_space.configure(highlightbackground=self.BACKGROUND_COLOR, height=35, width=170, state=tk.NORMAL)
+        self.scrollbar.configure(activebackground=self.BACKGROUND_COLOR, command=self.text_space.yview)
         # BOT widgets:
         self.csv_label.configure(background=self.BACKGROUND_COLOR)
         self.csv_field.configure(highlightbackground=self.BACKGROUND_COLOR)
@@ -103,16 +108,19 @@ class Group():
         self.go_button.pack(pady=5)
         # MID widgets:
         self.counter_label.pack()
-        self.text_space.pack(expand=False)
+        self.text_space.pack(side=tk.LEFT, fill=tk.BOTH, expand=False)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
         self.csv_label.pack()
         self.csv_field.pack()
         self.csv_button.pack(pady=5)
 
         self.search_field.bind("<Return>", self.searchForEntries)
+        self.csv_field.bind("<Return>", self.generateReport)
 
 
     # Generic WINDOW-CREATOR
-    def createNewWindow(self, x_movement, title, width, height):
+    def createNewWindow(self, x_movement, y_movement, title, width, height):
         root = tk.Tk()
         root.title("Cookie Data - " + title)
         w = width # width for the Tk root
@@ -124,7 +132,7 @@ class Group():
 
         # calculate x and y coordinates for the Tk root window
         x = (ws/2) - (w/2) + x_movement
-        y = (hs/2) - (h/2)
+        y = (hs/2) - (h/2) + y_movement
 
         # set the dimensions of the screen
         # and where it is placed
@@ -160,9 +168,10 @@ class Group():
 
         self.search_text = self.search_field.get()                              # Get the entered TEXT from SEARCH FIELD
         self.csv_field.insert(tk.INSERT, self.search_text)                      # Auto-Fill TEXT to CSV - Name FIELD
+        self.csv_label.configure(text="CSV Name:", fg='black')
 
         if (self.search_text == "") == False:
-            print("[<] '%s' has been entered!" % self.search_text)
+            print("\n[<] '%s' has been entered!" % self.search_text)
             self.text_space.delete('1.0', tk.END)
             self.id_state = self.var_idty.get()
             self.name_state = self.var_name.get()
@@ -172,7 +181,7 @@ class Group():
             self.loadFilteredData(self.id_state, self.name_state, self.host_state, self.search_text)
         else:
             self.counter_label.configure(text="[X] ENTER Something first!")
-            print("[X] ERROR!! ENTER Something!")
+            print("[X] ERROR!! ENTER Something!\n")
 
 
     # Loads selected data -> Handles data retrieving (-> Sends specific request to backend.)
@@ -195,38 +204,33 @@ class Group():
         self.amount_string = "Found [" + str(amount) + "] Entries."
         self.text_space.insert(tk.INSERT, result_string)
         self.counter_label.configure(text=self.amount_string)
-        print("[>] " + self.amount_string + "\n")
+        print("[>] " + self.amount_string + "")
 
 
     # Loads selected data -> Handles data retrieving (-> Sends specific request to backend.)
     def loadReportData(self, id_state, name_state, host_state, searchtext):
         database = bend.CookieDatabase()
-        result_string = ""
-        amount = 0
-        amount_string = ""
+        self.data = pd.DataFrame(columns=['ID', 'VALUE', 'NAME', 'HOST', 'ACCESSED', 'EXPIRY', 'SECURE', 'HTTP'], index=None)
 
         if id_state == 1:
-            result_string = database.getSelectedEntries(1, searchtext)
-            amount = database.getResultCount()
+            self.data = database.makeCSV(1, searchtext)
         elif name_state == 1:
-            result_string = database.getSelectedEntries(2, searchtext)
-            amount = database.getResultCount()
+            self.data = database.makeCSV(2, searchtext)
         elif host_state == 1:
-            result_string = database.getSelectedEntries(3, searchtext)
-            amount = database.getResultCount()
+            self.data = database.makeCSV(3, searchtext)
 
+        self.info = "FETCHING RESULTS FOR SEARCH-TERM: '%s'\n" % searchtext
+        self.amount_string = "Fetched [" + str(database.RESULT_AMOUNT) + "] Entries."
+        self.result = self.info + "[>] " + self.amount_string
 
-
-        self.info = "SHOWING RESULTS FOR SEARCH-TERM: '%s'\n" % searchtext
-        self.amount_string = "\nFound [" + str(amount) + "] Entries.\n\n"
-        self.result = self.info + self.amount_string + result_string
-
-        print("[>] " + self.amount_string + "\n")
-        return self.result
+        print("\n[>] " + self.result)
+        return self.data
 
 
     def generateReport(self):
+        self.csv_label.configure(text="CSV Name:", fg='black')
         self.search_term = self.search_field.get()
+        self.csv_name = self.csv_field.get()
 
         if (self.search_term == "") == False:
             self.id_state = self.var_idty.get()
@@ -240,11 +244,20 @@ class Group():
             print("[X] ERROR!! ENTER Something!")
 
 
-        print("\n[+] Creating REPORT for the search term: %s..." % self.search_term)
+        print("[+] Creating CSV File...")
+        #print(self.data)
 
-        #if os.path.isfile(self.PATH + "report.txt"):
-            #print("[X] ERROR! File Already exists!")
-        #else:
-        print("[>] Report written to: ~/%s.txt\n" % self.search_term)
-        file = open(self.PATH + "%s.txt" % self.search_term, "w+")
-        file.write(self.data)
+        if os.path.isfile(self.PATH + "%s.csv" % self.csv_name):
+            print("[X] ERROR! File Already exists!")
+            self.warnMessage()
+
+        else:
+            print("[>] Report written to: ~/%s.csv\n" % self.csv_name)
+            self.data.to_csv(self.PATH + "%s.csv" % self.csv_name, sep=',', index=False, mode='w+')
+            self.csv_label.configure(text="[!] SUCCESS!", fg="green")
+        #   file = open(self.PATH + "%s.txt" % self.csv_name, "w+")
+        #file.write(self.data)
+
+
+    def warnMessage(self):
+        self.csv_label.configure(text="[X] ERROR! File Already exists!", fg="red")

@@ -77,7 +77,7 @@ y = (hs/2) - (h/2)
 # set the dimensions of the screen
 # and where it is placed
 #app.iconbitmap(r'/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/pic/Cookie.ico')
-app.geometry('%dx%d+%d+%d' % (w, h, x+460, y))
+app.geometry('%dx%d+%d+%d' % (w, h, x+560, y-60))
 
 # V  THIS right here is defining the logo of the app (MAC OS -> Instead of TKinter Feather!)
 img = tk.PhotoImage(file='/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/pic/Cookie.gif')
