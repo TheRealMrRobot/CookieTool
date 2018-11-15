@@ -23,8 +23,6 @@ class Delete(tk.Frame):
     var_name = None
     var_host = None
 
-
-
     # GUI Initialisation:
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
