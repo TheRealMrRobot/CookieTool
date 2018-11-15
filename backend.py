@@ -10,8 +10,8 @@ import datetime as dt
 class CookieDatabase:
 
     PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"
-    TEST_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/backup/"
-    CSV_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/data/"
+    TEST_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/backup/"
+    CSV_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv"
     SELECT_ALL = "SELECT * FROM moz_cookies"
     SELECT_COMPLETE = "SELECT id, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
     SELECT_IMPORTANT = "SELECT name, host, isSecure FROM moz_cookies;"
@@ -99,7 +99,7 @@ class CookieDatabase:
     def getInfo(self):
         conn = sqlite3.connect(self.PATH + "cookies.sqlite")
         c = conn.cursor()
-        db = c.execute(self.SELECT_SOMETHING)
+        db = c.execute(self.SELECT_IMPORTANT)
         entry_counter = 0
         site_counter = 0
         sites = []
