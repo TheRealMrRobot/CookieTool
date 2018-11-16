@@ -20,7 +20,7 @@ class Report():
 
 
     def startReporting(self):
-        window = self.createNewWindow(0, -50, "Reports", 800, 340)
+        window = self.createNewWindow(0, -50, "Reports", 800, 440)
         window.configure(background=self.BACKGROUND_COLOR)
 
         report_frame_first = tk.Frame(window)
@@ -35,21 +35,21 @@ class Report():
 
         # TOP:
         self.label_fast = tk.Label(report_frame_first, text="Standard:", font=self.TT_FONT)
-        self.entry_fast = tk.Entry(report_frame_first, text="", font=self.FONT)
-        self.button_fast = tk.Button(report_frame_first, text="Search", font=self.FONT, width=10, command=lambda: self.fillEntries())
+        self.entry_fast = tk.Entry(report_frame_first, text="", font=self.TT_FONT)
+        self.button_fast = tk.Button(report_frame_first, text="Search", font=self.FONT, width=10, command=lambda: self.autoFillEntries())
         # FIRST ENTRIES:
         self.label_stand = tk.Label(report_frame_left_top, text="Standard:", font=self.TT_FONT)
-        self.entry_stand = tk.Entry(report_frame_left_top, text="", font=self.FONT)
-        self.label_priv = tk.Label(report_frame_right_top, text="Privacy:", font=self.TT_FONT)
-        self.entry_priv = tk.Entry(report_frame_right_top, text="", font=self.FONT)
+        self.entry_stand = tk.Entry(report_frame_left_top, text="", font=self.TT_FONT)
+        self.label_priv = tk.Label(report_frame_right_top, text="Privacy Badger:", font=self.TT_FONT)
+        self.entry_priv = tk.Entry(report_frame_right_top, text="", font=self.TT_FONT)
         # SECOND ROW:
-        self.label_http = tk.Label(report_frame_left, text="HTTPs:", font=self.TT_FONT)
-        self.entry_http = tk.Entry(report_frame_left, text="", font=self.FONT)
+        self.label_http = tk.Label(report_frame_left, text="HTTPs Everywhere:", font=self.TT_FONT)
+        self.entry_http = tk.Entry(report_frame_left, text="", font=self.TT_FONT)
         self.label_matrix = tk.Label(report_frame_right, text="uMatrix:", font=self.TT_FONT)
-        self.entry_matrix = tk.Entry(report_frame_right, text="", font=self.FONT)
+        self.entry_matrix = tk.Entry(report_frame_right, text="", font=self.TT_FONT)
         # REPORT:
         self.label_name = tk.Label(report_frame_bottom, text="Report Name:", font=self.TT_FONT)
-        self.entry_name = tk.Entry(report_frame_right, text="", font=self.FONT)
+        self.entry_name = tk.Entry(report_frame_bottom, text="", font=self.TT_FONT)
         self.button_gen = tk.Button(report_frame_bottom, text="Save", font=self.FONT, width=10, command=lambda: self.createReport())
 
 
@@ -77,6 +77,7 @@ class Report():
         self.label_matrix.configure(background=self.BACKGROUND_COLOR)
         self.entry_matrix.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.label_name.configure(background=self.BACKGROUND_COLOR)
+        self.entry_name.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.button_gen.configure(highlightbackground=self.BACKGROUND_COLOR)
 
 
@@ -103,7 +104,11 @@ class Report():
         self.label_matrix.pack()
         self.entry_matrix.pack()
         self.label_name.pack()
+        self.entry_name.pack()
         self.button_gen.pack()
+
+        self.entry_fast.bind("<Return>", self.autoFillEntries)
+        self.entry_name.bind("<Return>", self.createReport)
 
 
 
@@ -129,12 +134,47 @@ class Report():
         return root
 
 
+    # Should check if all CSVs are existing:
+    def checkCSVFiles(self):
+        # Check each file ->
 
-
-    def autoFillEntries(self):
+        # Returns TRUE or FALSE
         pass
 
 
+    # Handles automatic filling of entries (according to fast-entry):
+    def autoFillEntries(self, event=None):
+        self.entry = self.entry_fast.get()
 
-    def createReport(self):
+
+        # if empty:
+        if self.entry_stand.get() == None:
+            # fill each of the 4:
+            self.entry_stand.insert(tk.INSERT, "%s_standard.csv" % self.entry)
+            self.entry_priv.insert(tk.INSERT, "%s_privacy.csv" % self.entry)
+            self.entry_http.insert(tk.INSERT, "%s_https.csv" % self.entry)
+            self.entry_matrix.insert(tk.INSERT, "%s_umatrix.csv" % self.entry)
+            self.entry_name.insert(tk.INSERT, "%s_report.csv" % self.entry)
+
+        # if full:
+        else:
+            # delete each of the 4:
+            self.entry_stand.delete(0, tk.END)
+            self.entry_priv.delete(0, tk.END)
+            self.entry_http.delete(0, tk.END)
+            self.entry_matrix.delete(0, tk.END)
+            self.entry_name.delete(0, tk.END)
+            # fill each of the 4:
+            self.entry_stand.insert(tk.INSERT, "%s_standard.csv" % self.entry)
+            self.entry_priv.insert(tk.INSERT, "%s_privacy.csv" % self.entry)
+            self.entry_http.insert(tk.INSERT, "%s_https.csv" % self.entry)
+            self.entry_matrix.insert(tk.INSERT, "%s_umatrix.csv" % self.entry)
+            self.entry_name.insert(tk.INSERT, "%s_report.csv" % self.entry)
+
+
+
+    def createReport(self, event=None):
+        print("[>] Trying to save report-data...")
+        self.data_existing = False
+        self.data_existing = self.checkCSVFiles()
         pass
