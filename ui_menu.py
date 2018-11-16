@@ -1,6 +1,7 @@
 import tkinter as tk
 import ui_info as Info
 import ui_delete as Delete
+import ui_data as Data
 
 ################################################################################
 # M E N U
@@ -22,6 +23,8 @@ class Menu(tk.Frame):
         self.menu_text = tk.Label(self, text="Main Menu", height=3, font=self.H_FONT)
         self.info_text = tk.Label(self, text="Get Cookie Info:", font=self.TT_FONT)
         self.info_button = tk.Button(self, text="Cookie Data", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Info.Info))
+        self.data_text = tk.Label(self, text="Get Data Insight:", font=self.TT_FONT)
+        self.data_button = tk.Button(self, text="Own Data", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Data.Data))
         self.delete_text = tk.Label(self, text="Delete Cookies:", font=self.TT_FONT)
         self.delete_button = tk.Button(self, text="Delete Data", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Delete.Delete))
 
@@ -29,6 +32,8 @@ class Menu(tk.Frame):
         self.menu_text.pack()
         self.info_text.pack()
         self.info_button.pack()
+        self.data_text.pack()
+        self.data_button.pack()
         self.delete_text.pack()
         self.delete_button.pack()
 
@@ -43,6 +48,8 @@ class Menu(tk.Frame):
         self.menu_text.configure(background=self.color)
         self.info_text.configure(background=self.color)
         self.info_button.configure(highlightbackground=self.color)
+        self.data_text.configure(background=self.color)
+        self.data_button.configure(highlightbackground=self.color)
         self.delete_text.configure(background=self.color)
         self.delete_button.configure(highlightbackground=self.color)
 

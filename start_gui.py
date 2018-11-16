@@ -2,6 +2,7 @@ import tkinter as tk
 import ui_menu as Menu
 import ui_info as Info
 import ui_delete as Delete
+import ui_data as Data
 
 ################################################################################
 #   G U I
@@ -33,7 +34,7 @@ class Structure(tk.Tk):
         self.frames = {}
 
         # ADD new windows / frames HERE:    <-------  F R A M E S
-        for F in (Menu.Menu, Info.Info, Delete.Delete):
+        for F in (Menu.Menu, Info.Info, Delete.Delete, Data.Data):
             # A new Frame that is created as a StartPage object (other class)
             frame = F(container, self)
             # Add the frame to the dictionary
