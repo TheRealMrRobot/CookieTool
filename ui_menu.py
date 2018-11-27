@@ -13,7 +13,7 @@ class Menu(tk.Frame):
     H_FONT = ("Verdana", 24, 'bold')
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
-    BACKGROUND_COLOR = "deepskyblue"
+    BACKGROUND_COLOR = "skyblue"
 
     # parent is "Structure"
     def __init__(self, parent, controller):

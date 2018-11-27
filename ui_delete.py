@@ -13,7 +13,7 @@ class Delete(tk.Frame):
     H_FONT = ("Verdana", 24, 'bold')
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
-    BACKGROUND_COLOR = "deepskyblue"
+    BACKGROUND_COLOR = "tomato"
 
     # GUI Stuff that needs to be global
     idty_box = None

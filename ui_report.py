@@ -13,7 +13,7 @@ class Report():
     H_FONT = ("Verdana", 24, 'bold')
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
-    BACKGROUND_COLOR = "deepskyblue"
+    BACKGROUND_COLOR = "palegreen"
 
     def __init__(self):
         pass

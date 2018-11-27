@@ -21,7 +21,7 @@ class Info(tk.Frame):
     H_FONT = ("Verdana", 24, 'bold')
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
-    BACKGROUND_COLOR = "deepskyblue"
+    BACKGROUND_COLOR = "burlywood3"
     CONTROLLER = ""
     DATA_WIN = ""
 
