@@ -32,7 +32,7 @@ class Data(tk.Frame):
         self.visual_text = tk.Label(self, text="Visualize Reports:", font=self.TT_FONT)
         self.visual_button = tk.Button(self, text="Visualize", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(delete.Delete))
         self.save_text = tk.Label(self, text="Save Data:", font=self.TT_FONT)
-        self.save_button = tk.Button(self, text="Save", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(delete.Delete))
+        self.save_button = tk.Button(self, text="Save", height=1, width=10, font=self.FONT, command=lambda: self.openSaveOptions(controller))
         self.back_button = tk.Button(self, text="< Back", font=self.FONT, width=10, command=lambda: controller.show_frame(menu.Menu))
 
         # PACKING:
@@ -62,6 +62,8 @@ class Data(tk.Frame):
         self.save_button.configure(highlightbackground=self.color)
         self.back_button.configure(highlightbackground=self.color)
 
+        print("[DESIGN] DATA DESIGN COLOR: %s" % self.color)
+
 
     # Opens up a new window for creating reports (link to ui_report.py)
     def openReporting(self):
@@ -70,6 +72,6 @@ class Data(tk.Frame):
 
 
     # Opens up a new window for saving data (link to ui_save.py)
-    def openSaveOptions(self):
+    def openSaveOptions(self, controller):
         save_instance = save.Save()
-        save_instance.startSaveOptions()
+        save_instance.startSaveOptions(controller)

@@ -17,7 +17,7 @@ class Group():
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
     BACKGROUND_COLOR = "burlywood3"
-    CONTROLLER = ""
+    CONTROLLER = None
     DATA_WIN = ""
 
     # GUI Stuff that needs to be global
@@ -34,10 +34,11 @@ class Group():
 
 
     # Handles new window
-    def openCookieGrouping(self):
+    def openCookieGrouping(self, controller):
         self.var_idty = tk.IntVar()
         self.var_name = tk.IntVar()
         self.var_host = tk.IntVar()
+        self.CONTROLLER = controller
         # root = tk.Tk()
         group_win = self.createNewWindow(0, -50, "Cookie Group", 1215, 800)
         # CREATING:
@@ -170,6 +171,7 @@ class Group():
         self.csv_field.insert(tk.INSERT, self.search_text)                      # Auto-Fill TEXT to CSV - Name FIELD
         self.csv_label.configure(text="CSV Name:", fg='black')
 
+        # If something has been entered!
         if (self.search_text == "") == False:
             print("\n[<] '%s' has been entered!" % self.search_text)
             self.text_space.delete('1.0', tk.END)
@@ -180,8 +182,11 @@ class Group():
             # Should load the data
             self.loadFilteredData(self.id_state, self.name_state, self.host_state, self.search_text)
         else:
-            self.counter_label.configure(text="[X] ENTER Something first!")
+            self.counter_label.configure(text="[X] ENTER Something first!", fg='red')
+            self.CONTROLLER.update()
             print("[X] ERROR!! ENTER Something!\n")
+            self.CONTROLLER.after(2000, self.counter_label.configure(text="", fg='black'))
+
 
 
     # Loads selected data -> Handles data retrieving (-> Sends specific request to backend.)
@@ -232,32 +237,38 @@ class Group():
         self.search_term = self.search_field.get()
         self.csv_name = self.csv_field.get()
 
+        # Only if there was some search_term! -> ELSE it would be wasted time and caclulation power, if a csv was created, before it was checked, if it is necessary or not!
         if (self.search_term == "") == False:
             self.id_state = self.var_idty.get()
             self.name_state = self.var_name.get()
             self.host_state = self.var_host.get()
 
-            # Should load the data
-            self.data = self.loadReportData(self.id_state, self.name_state, self.host_state, self.search_text)
+            print("[+] Creating CSV File...")
+            #print(self.data)
+
+            if os.path.isfile(self.PATH + "%s.csv" % self.csv_name):
+                print("[X] ERROR! File Already exists!")
+                self.warnMessage()
+
+            else:
+                # Should load the data
+                self.data = self.loadReportData(self.id_state, self.name_state, self.host_state, self.search_text)
+                print("[>] Report written to: ~/%s.csv\n" % self.csv_name)
+                self.data.to_csv(self.PATH + "%s.csv" % self.csv_name, sep=',', index=False, mode='w+')
+                self.csv_label.configure(text="[!] SUCCESS!", fg="green")
+                self.CONTROLLER.update()
+                self.CONTROLLER.after(2000, self.csv_label.configure(text="CSV Name:", fg='black'))
+            #   file = open(self.PATH + "%s.txt" % self.csv_name, "w+")
+            #file.write(self.data)
+
         else:
-            self.counter_label.configure(text="[X] ENTER Something first!")
+            self.counter_label.configure(text="[X] ENTER Something first!", fg='red')
+            self.CONTROLLER.update()
+            self.CONTROLLER.after(2000, self.counter_label.configure(text="", fg='black'))
             print("[X] ERROR!! ENTER Something!")
-
-
-        print("[+] Creating CSV File...")
-        #print(self.data)
-
-        if os.path.isfile(self.PATH + "%s.csv" % self.csv_name):
-            print("[X] ERROR! File Already exists!")
-            self.warnMessage()
-
-        else:
-            print("[>] Report written to: ~/%s.csv\n" % self.csv_name)
-            self.data.to_csv(self.PATH + "%s.csv" % self.csv_name, sep=',', index=False, mode='w+')
-            self.csv_label.configure(text="[!] SUCCESS!", fg="green")
-        #   file = open(self.PATH + "%s.txt" % self.csv_name, "w+")
-        #file.write(self.data)
 
 
     def warnMessage(self):
         self.csv_label.configure(text="[X] ERROR! File Already exists!", fg="red")
+        self.CONTROLLER.update()
+        self.CONTROLLER.after(2000, self.csv_label.configure(text="CSV Name:", fg='black'))

@@ -35,7 +35,7 @@ class Info(tk.Frame):
         self.load_label = tk.Label(self, text="Complete Database:", font=self.TT_FONT)
         self.load_button = tk.Button(self, text="Database", font=self.FONT, width=10, command=lambda: self.loadDatabase())
         self.group_label = tk.Label(self, text="Group Information:", font=self.TT_FONT)
-        self.group_button = tk.Button(self, text="Group", font=self.FONT, width=10, command=lambda: self.createCookieGrouping())
+        self.group_button = tk.Button(self, text="Group", font=self.FONT, width=10, command=lambda: self.createCookieGrouping(controller))
         self.show_label = tk.Label(self, text="Specific Cookie Information:", font=self.TT_FONT)
         self.show_button = tk.Button(self, text="Info", font=self.FONT, width=10, command=lambda: self.showInfo())
         self.back_button = tk.Button(self, text="< Back", font=self.FONT, width=10, command=lambda: controller.show_frame(menu.Menu))
@@ -162,9 +162,9 @@ class Info(tk.Frame):
 
 
     # Opens up new Instance of ui_group:
-    def createCookieGrouping(self):
+    def createCookieGrouping(self, controller):
         cookie_group = group.Group()
-        cookie_group.openCookieGrouping()
+        cookie_group.openCookieGrouping(controller)
 
 
     # Opens a new window and shows the whole Cookie - Database

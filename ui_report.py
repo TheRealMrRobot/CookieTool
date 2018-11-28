@@ -172,7 +172,7 @@ class Report():
             self.entry_name.insert(tk.INSERT, "%s_report.csv" % self.entry)
 
 
-
+    # Should create a report for certain sites.. (DOES NOTHING at the moment)
     def createReport(self, event=None):
         print("[>] Trying to save report-data...")
         self.data_existing = False

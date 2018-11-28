@@ -7,6 +7,14 @@ import ui_report as report
 import ui_info as info
 import ui_data as data
 
+################################################################################
+# S A V E 
+################################################################################
+
+
+# self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
+
+
 
 class Save():
 
@@ -14,15 +22,21 @@ class Save():
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
     BACKGROUND_COLOR = "palegreen"
+    PATH = "/users/Maxi/Desktop/atom/python/bachelor/tracking/"
+    PATH_DATA = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
+    PATH_APP = "/users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/"
+    CONTROLLER = None
+
 
     def __init__(self):
         pass
 
 
     # Opens up a window for saving data (and selecting which)
-    def startSaveOptions(self):
-        window = self.createNewWindow(0, -50, "Save Data", 800, 440)
+    def startSaveOptions(self, controller):
+        window = self.createNewWindow(0, -50, "Save Data", 650, 300)
         window.configure(background=self.BACKGROUND_COLOR)
+        self.CONTROLLER = controller
 
         # Frames (6 - 3 nested in Frame1 & 1 per other frame)
         save_frame_top = tk.Frame(window)
@@ -33,83 +47,53 @@ class Save():
         save_frame_bot = tk.Frame(window)
 
 
-
         # TOP:
-        self.label_fast = tk.Label(save_frame_first, text="Standard:", font=self.TT_FONT)
-        self.entry_fast = tk.Entry(save_frame_first, text="", font=self.TT_FONT)
-        self.button_fast = tk.Button(save_frame_first, text="Search", font=self.FONT, width=10, command=lambda: self.autoFillEntries())
-        # FIRST ENTRIES:
-        self.label_stand = tk.Label(save_frame_left_top, text="Standard:", font=self.TT_FONT)
-        self.entry_stand = tk.Entry(save_frame_left_top, text="", font=self.TT_FONT)
-        self.label_priv = tk.Label(save_frame_right_top, text="Privacy Badger:", font=self.TT_FONT)
-        self.entry_priv = tk.Entry(save_frame_right_top, text="", font=self.TT_FONT)
-        # SECOND ROW:
-        self.label_http = tk.Label(save_frame_left, text="HTTPs Everywhere:", font=self.TT_FONT)
-        self.entry_http = tk.Entry(save_frame_left, text="", font=self.TT_FONT)
-        self.label_matrix = tk.Label(save_frame_right, text="uMatrix:", font=self.TT_FONT)
-        self.entry_matrix = tk.Entry(save_frame_right, text="", font=self.TT_FONT)
+        self.label_sqlite = tk.Label(save_frame_left_top, text="SQlite:", font=self.FONT)
+        self.entry_sqlite = tk.Entry(save_frame_mid_top, text="", font=self.FONT)
+        self.button_sqlite = tk.Button(save_frame_right_top, text="Search", font=self.FONT, width=10, command=lambda: self.searchDatabase())
+        self.label_status = tk.Label(save_frame_mid, text="", font=self.TT_FONT)
+
         # save:
-        self.label_name = tk.Label(save_frame_bottom, text="save Name:", font=self.TT_FONT)
-        self.entry_name = tk.Entry(save_frame_bottom, text="", font=self.TT_FONT)
-        self.button_gen = tk.Button(save_frame_bottom, text="Save", font=self.FONT, width=10, command=lambda: self.createsave())
+        self.label_csv = tk.Label(save_frame_bot, text="CSV Name:", font=self.TT_FONT)
+        self.entry_csv = tk.Entry(save_frame_bot, text="", font=self.TT_FONT)
+        self.button_csv = tk.Button(save_frame_bot, text="Save .csv", font=self.FONT, width=10, command=lambda: self.saveData())
 
 
-        save_frame_first.configure(background=self.BACKGROUND_COLOR)
         save_frame_top.configure(background=self.BACKGROUND_COLOR)
+        save_frame_left_top.configure(background=self.BACKGROUND_COLOR)
+        save_frame_mid_top.configure(background=self.BACKGROUND_COLOR)
+        save_frame_right_top.configure(background=self.BACKGROUND_COLOR)
         save_frame_mid.configure(background=self.BACKGROUND_COLOR)
         save_frame_bot.configure(background=self.BACKGROUND_COLOR)
 
-        save_frame_left_top.configure(background=self.BACKGROUND_COLOR)
-        save_frame_right_top.configure(background=self.BACKGROUND_COLOR)
-        save_frame_left.configure(background=self.BACKGROUND_COLOR)
-        save_frame_right.configure(background=self.BACKGROUND_COLOR)
-        save_frame_bottom.configure(background=self.BACKGROUND_COLOR)
+
+        self.label_sqlite.configure(background=self.BACKGROUND_COLOR)
+        self.entry_sqlite.configure(highlightbackground=self.BACKGROUND_COLOR)
+        self.button_sqlite.configure(highlightbackground=self.BACKGROUND_COLOR)
+        self.label_status.configure(background=self.BACKGROUND_COLOR)
+        self.label_csv.configure(background=self.BACKGROUND_COLOR)
+        self.entry_csv.configure(highlightbackground=self.BACKGROUND_COLOR)
+        self.button_csv.configure(highlightbackground=self.BACKGROUND_COLOR)
 
 
-        self.label_fast.configure(background=self.BACKGROUND_COLOR)
-        self.entry_fast.configure(highlightbackground=self.BACKGROUND_COLOR)
-        self.button_fast.configure(highlightbackground=self.BACKGROUND_COLOR)
-        self.label_stand.configure(background=self.BACKGROUND_COLOR)
-        self.entry_stand.configure(highlightbackground=self.BACKGROUND_COLOR)
-        self.label_priv.configure(background=self.BACKGROUND_COLOR)
-        self.entry_priv.configure(highlightbackground=self.BACKGROUND_COLOR)
-        self.label_http.configure(background=self.BACKGROUND_COLOR)
-        self.entry_http.configure(highlightbackground=self.BACKGROUND_COLOR)
-        self.label_matrix.configure(background=self.BACKGROUND_COLOR)
-        self.entry_matrix.configure(highlightbackground=self.BACKGROUND_COLOR)
-        self.label_name.configure(background=self.BACKGROUND_COLOR)
-        self.entry_name.configure(highlightbackground=self.BACKGROUND_COLOR)
-        self.button_gen.configure(highlightbackground=self.BACKGROUND_COLOR)
-
-
-        save_frame_first.pack()
         save_frame_top.pack(side=tk.TOP)
         save_frame_left_top.pack(side=tk.LEFT, pady=10)
+        save_frame_mid_top.pack(side=tk.LEFT, pady=10)
         save_frame_right_top.pack(side=tk.RIGHT, pady=10)
         save_frame_mid.pack()
-        save_frame_left.pack(side=tk.LEFT)
-        save_frame_right.pack(side=tk.RIGHT)
-        save_frame_bot.pack(side=tk.BOTTOM)
-        save_frame_bottom.pack(side=tk.BOTTOM, pady=5)
+        save_frame_bot.pack(side=tk.BOTTOM, pady=5)
 
 
-        self.label_fast.pack()
-        self.entry_fast.pack()
-        self.button_fast.pack()
-        self.label_stand.pack()
-        self.entry_stand.pack()
-        self.label_priv.pack()
-        self.entry_priv.pack()
-        self.label_http.pack()
-        self.entry_http.pack()
-        self.label_matrix.pack()
-        self.entry_matrix.pack()
-        self.label_name.pack()
-        self.entry_name.pack()
-        self.button_gen.pack()
+        self.label_sqlite.pack()
+        self.entry_sqlite.pack()
+        self.button_sqlite.pack()
+        self.label_status.pack()
+        self.label_csv.pack()
+        self.entry_csv.pack()
+        self.button_csv.pack()
 
-        self.entry_fast.bind("<Return>", self.autoFillEntries)
-        self.entry_name.bind("<Return>", self.createReport)
+        self.entry_sqlite.bind("<Return>", self.searchDatabase)
+        self.entry_csv.bind("<Return>", self.saveData)
 
 
 
@@ -133,3 +117,37 @@ class Save():
         root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
         return root
+
+
+    # Should look for the requested database -> in local path(es)?
+    def searchDatabase(self, event=None):
+        self.search_term = self.entry_sqlite.get()
+        print("[>] Searching for file '%s.sqlite'..." % self.search_term)
+        self.existing = self.checkExistance(self.search_term)
+
+        if self.existing:
+            self.label_status.configure(text="[*] File exists!", fg='black')
+            self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
+            print("[*] File exists!\n")
+            self.CONTROLLER.after(2000, self.label_status.configure(text="", fg='black'))
+        else:
+            self.label_status.configure(text="[X] File not found!", fg='black')
+            self.CONTROLLER.update()
+            print("[X] ERROR! File not found!\n")
+            self.CONTROLLER.after(2000, self.label_status.configure(text="", fg='black'))
+
+
+
+
+    def checkExistance(self, file):
+        self.file_location = self.PATH_DATA + file + ".sqlite"
+
+        if os.path.exists(self.file_location):
+            return True
+        else:
+            return False
+
+
+    # SAVES & TRANSFORMS data into CSV -> with extra content!
+    def saveData(self, event=None):
+        pass
