@@ -23,6 +23,7 @@ class Save():
     TT_FONT = ("Verdana", 16)
     BACKGROUND_COLOR = "palegreen"
     PATH = "/users/Maxi/Desktop/atom/python/bachelor/tracking/"
+    PATH_CSV = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
     PATH_DATA = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
     PATH_APP = "/users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/"
     CONTROLLER = None
@@ -51,7 +52,7 @@ class Save():
         self.label_sqlite = tk.Label(save_frame_left_top, text="SQlite:", font=self.FONT)
         self.entry_sqlite = tk.Entry(save_frame_mid_top, text="", font=self.FONT)
         self.button_sqlite = tk.Button(save_frame_right_top, text="Search", font=self.FONT, width=10, command=lambda: self.searchDatabase())
-        self.label_status = tk.Label(save_frame_mid, text="", font=self.TT_FONT)
+        self.label_status = tk.Label(save_frame_mid, text="", font=self.FONT)
 
         # save:
         self.label_csv = tk.Label(save_frame_bot, text="CSV Name:", font=self.TT_FONT)
@@ -123,31 +124,83 @@ class Save():
     def searchDatabase(self, event=None):
         self.search_term = self.entry_sqlite.get()
         print("[>] Searching for file '%s.sqlite'..." % self.search_term)
-        self.existing = self.checkExistance(self.search_term)
+        self.existing = self.checkExistance("sqlite", self.search_term)
 
         if self.existing:
-            self.label_status.configure(text="[*] File exists!", fg='black')
+            self.label_status.configure(text="[*] File exists!", fg='green')
             self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
             print("[*] File exists!\n")
-            self.CONTROLLER.after(2000, self.label_status.configure(text="", fg='black'))
+            self.CONTROLLER.after(1500, self.label_status.configure(text="", fg='black'))
         else:
             self.label_status.configure(text="[X] File not found!", fg='red')
             self.CONTROLLER.update()
             print("[X] ERROR! File not found!\n")
-            self.CONTROLLER.after(2000, self.label_status.configure(text="", fg='black'))
+            self.CONTROLLER.after(1500, self.label_status.configure(text="", fg='black'))
 
 
 
     # Checks if the given file exists:   (Could be moved to BACKEND?! -> too complicated?)
-    def checkExistance(self, file):
-        self.file_location = self.PATH_DATA + file + ".sqlite"
+    def checkExistance(self, path, file):
 
-        if os.path.exists(self.file_location):
-            return True
+        if path == "sqlite":
+            self.sqlite_location = self.PATH_DATA + file + ".sqlite"
+
+            if os.path.exists(self.sqlite_location):
+                return True
+            else:
+                return False
+        elif path == "csv":
+            self.csv_location = self.PATH_CSV + file + ".csv"
+
+            if os.path.exists(self.csv_location):
+                return True
+            else:
+                return False
         else:
-            return False
+            print("FATAL ERROR IN checkExistance() method -> UNKNOWN path!")
+            return None
 
 
     # SAVES & TRANSFORMS data into CSV -> with extra content!
     def saveData(self, event=None):
-        pass
+        self.search_term = self.entry_sqlite.get()
+        self.csv_name = self.entry_csv.get()
+
+        if (self.csv_name == "") == False:
+            self.existing = self.checkExistance("sqlite", self.search_term)
+            self.csv_existing = self.checkExistance("csv", self.csv_name)
+
+            if self.existing and self.csv_existing == False:
+                self.label_status.configure(text="[*] Saving file...", fg='green')
+                self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
+                print("[*] Saving file...\n")
+                self.processData(self.search_term, self.csv_name)
+                self.CONTROLLER.after(200, self.label_status.configure(text="[*] Saving SUCCESSFULL!", fg='green'))
+                self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
+                self.CONTROLLER.after(1500, self.label_status.configure(text="", fg='black'))
+            elif self.csv_existing == True:
+                self.label_status.configure(text="[X] CSV already existing!", fg='red')
+                self.CONTROLLER.update()
+                print("[X] ERROR! CSV already existing!!\n")
+                self.CONTROLLER.after(1500, self.label_status.configure(text="", fg='black'))
+            else:
+                self.label_status.configure(text="[X] File not found!", fg='red')
+                self.CONTROLLER.update()
+                print("[X] ERROR! File not found!\n")
+                self.CONTROLLER.after(1500, self.label_status.configure(text="", fg='black'))
+        else:
+            self.label_status.configure(text="[X] Enter CSV name first!", fg='red')
+            self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
+            self.CONTROLLER.after(1500, self.label_status.configure(text="", fg='black'))
+
+
+    # Processes and Saves DATA!
+    def processData(self, search_term, csv_name):
+        self.database = bend.CookieDatabase()
+        self.data = self.database.transformToDataFrame(search_term)
+        try:
+            self.data.to_csv(self.PATH_CSV + "%s.csv" % csv_name, sep=',', index=False, mode='w+')
+            print("[*] Saving SUCCESSFULL!")
+        except Exception:
+            print("ERROR while saving file!")
+        #print(self.data)

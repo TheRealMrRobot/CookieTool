@@ -11,9 +11,12 @@ class CookieDatabase:
 
     PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"
     TEST_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/backup/"
-    CSV_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv"
+    CSV_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv/"
+    SQLITE_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
+    TRANSFORM_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
     SELECT_ALL = "SELECT * FROM moz_cookies"
     SELECT_COMPLETE = "SELECT id, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
+    SELECT_NECCESSARY = "SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
     SELECT_IMPORTANT = "SELECT name, host, isSecure FROM moz_cookies;"
     SELECT_SOMETHING = "SELECT * FROM moz_cookies"
     RESULT_AMOUNT = 0
@@ -291,6 +294,50 @@ class CookieDatabase:
 
     def getResultCount(self):
         return self.RESULT_AMOUNT
+
+
+    # Takes a sqlite DB name and transforms it into dataframe -> RETURNS DataFrame!
+    def transformToDataFrame(self, search_term):
+        conn = sqlite3.connect(self.SQLITE_SAVE + search_term + ".sqlite")
+        c = conn.cursor()
+        result_amount = 0
+        data_row = []
+        data = pd.DataFrame(columns=['ID', 'VALUE', 'NAME', 'HOST', 'ACCESSED', 'EXPIRY', 'DURATION', 'SECURE', 'HTTP'], index=None)
+
+        db = c.execute(self.SELECT_NECCESSARY)
+        if db is None:
+            print("\n[X] NOTHING FOUND!")
+            return "NOTHING FOUND!"
+        else:
+            ex_date = ""
+            ac_date = ""
+            diff = ""
+            duration = ""
+
+            # BUILD DATABASE Output
+            for row in db:
+                self.RESULT_AMOUNT = 0
+
+                # "WRONG" ORDER! -> normally: 1. expiry  2. access
+                id = str(row[0])
+                value = str(row[1])
+                name = str(row[2])
+                host = str(row[3])
+                ac_date = str(dt.datetime.fromtimestamp(row[5] / 1000000).strftime('%d.%m.%Y-%H:%M:%S'))
+                ex_date = str(dt.datetime.fromtimestamp((row[5] + row[4]) / 1000000).strftime('%d.%m.%Y-%H:%M:%S'))
+                diff = ((dt.datetime.fromtimestamp((row[5] + row[4]) / 1000000)) - (dt.datetime.fromtimestamp(row[5] / 1000000)))
+                duration = divmod(diff.days * 86400 + diff.seconds, 60)
+                #print("Minutes: " + str(duration[0]) + " | Seconds: " + str(duration[1]) + " | ID: " + id)
+                secure = str(row[6])
+                http = str(row[7])
+
+                data_row = [id, value, name, host, ac_date, ex_date, str(duration[0]), secure, http]
+                data.loc[result_amount] = (data_row)
+                result_amount += 1
+
+
+        self.RESULT_AMOUNT = result_amount
+        return data
 
 
     def makeCSV(self, filter, text):

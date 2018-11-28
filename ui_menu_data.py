@@ -27,22 +27,24 @@ class Data(tk.Frame):
         # INITIALIZATION:
         #self.DATA_WIN = controller
         self.data_text = tk.Label(self, text="Data Menu", height=3, font=self.H_FONT)
+        self.save_text = tk.Label(self, text="Transform Data:", font=self.TT_FONT)
+        self.save_button = tk.Button(self, text="Transform", height=1, width=10, font=self.FONT, command=lambda: self.openSaveOptions(controller))
         self.report_text = tk.Label(self, text="Create Data Report:", font=self.TT_FONT)
         self.report_button = tk.Button(self, text="Report", height=1, width=10, font=self.FONT, command=lambda: self.openReporting())
         self.visual_text = tk.Label(self, text="Visualize Reports:", font=self.TT_FONT)
         self.visual_button = tk.Button(self, text="Visualize", height=1, width=10, font=self.FONT, command=lambda: self.openVizard(controller))
-        self.save_text = tk.Label(self, text="Save Data:", font=self.TT_FONT)
-        self.save_button = tk.Button(self, text="Save", height=1, width=10, font=self.FONT, command=lambda: self.openSaveOptions(controller))
+
         self.back_button = tk.Button(self, text="< Back", font=self.FONT, width=10, command=lambda: controller.show_frame(menu.Menu))
 
         # PACKING:
         self.data_text.pack()
+        self.save_text.pack()
+        self.save_button.pack()
         self.report_text.pack()
         self.report_button.pack()
         self.visual_text.pack()
         self.visual_button.pack()
-        self.save_text.pack()
-        self.save_button.pack()
+
         self.back_button.pack(pady=30)
 
         self.setDesign()
