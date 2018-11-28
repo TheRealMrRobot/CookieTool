@@ -4,7 +4,7 @@ import backend as bend          # DataBase & Structure
 import ui_menu as menu
 import ui_group as group
 import ui_report as report
-import ui_info as info
+import ui_menu_info as info
 import ui_save as save
 
 
@@ -30,7 +30,7 @@ class Data(tk.Frame):
         self.report_text = tk.Label(self, text="Create Data Report:", font=self.TT_FONT)
         self.report_button = tk.Button(self, text="Report", height=1, width=10, font=self.FONT, command=lambda: self.openReporting())
         self.visual_text = tk.Label(self, text="Visualize Reports:", font=self.TT_FONT)
-        self.visual_button = tk.Button(self, text="Visualize", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(delete.Delete))
+        self.visual_button = tk.Button(self, text="Visualize", height=1, width=10, font=self.FONT, command=lambda: self.openVizard(controller))
         self.save_text = tk.Label(self, text="Save Data:", font=self.TT_FONT)
         self.save_button = tk.Button(self, text="Save", height=1, width=10, font=self.FONT, command=lambda: self.openSaveOptions(controller))
         self.back_button = tk.Button(self, text="< Back", font=self.FONT, width=10, command=lambda: controller.show_frame(menu.Menu))
@@ -75,3 +75,7 @@ class Data(tk.Frame):
     def openSaveOptions(self, controller):
         save_instance = save.Save()
         save_instance.startSaveOptions(controller)
+
+
+    def openVizard(self, controller):
+        pass

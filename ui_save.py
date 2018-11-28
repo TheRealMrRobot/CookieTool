@@ -4,11 +4,11 @@ import backend as bend          # DataBase & Structure
 import ui_menu as menu
 import ui_group as group
 import ui_report as report
-import ui_info as info
-import ui_data as data
+import ui_menu_info as info
+import ui_menu_data as data
 
 ################################################################################
-# S A V E 
+# S A V E
 ################################################################################
 
 
@@ -131,14 +131,14 @@ class Save():
             print("[*] File exists!\n")
             self.CONTROLLER.after(2000, self.label_status.configure(text="", fg='black'))
         else:
-            self.label_status.configure(text="[X] File not found!", fg='black')
+            self.label_status.configure(text="[X] File not found!", fg='red')
             self.CONTROLLER.update()
             print("[X] ERROR! File not found!\n")
             self.CONTROLLER.after(2000, self.label_status.configure(text="", fg='black'))
 
 
 
-
+    # Checks if the given file exists:   (Could be moved to BACKEND?! -> too complicated?)
     def checkExistance(self, file):
         self.file_location = self.PATH_DATA + file + ".sqlite"
 

@@ -3,8 +3,7 @@ import time
 import tkinter as tk
 import backend as bend          # DataBase & Structure
 import ui_menu as Menu
-import ui_info as Info
-import ui_data as Data
+import ui_menu_data as Data
 import pandas as pd
 
 

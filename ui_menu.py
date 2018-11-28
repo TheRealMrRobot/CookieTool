@@ -1,7 +1,7 @@
 import tkinter as tk
-import ui_info as Info
-import ui_delete as Delete
-import ui_data as Data
+import ui_menu_info as Info
+import ui_menu_delete as Delete
+import ui_menu_data as Data
 
 ################################################################################
 # M E N U
