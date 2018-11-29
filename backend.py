@@ -1,6 +1,7 @@
 import sqlite3
 import pandas as pd
 import datetime as dt
+import os
 
 
 ################################################################################
@@ -9,11 +10,15 @@ import datetime as dt
 
 class CookieDatabase:
 
-    PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"
+    # Some PATHES:
+    PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"           # LIVE PATH - MacBook Air
     TEST_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/backup/"
     CSV_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv/"
     SQLITE_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
+    REPORT_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
     TRANSFORM_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
+
+    # SQL:
     SELECT_ALL = "SELECT * FROM moz_cookies"
     SELECT_COMPLETE = "SELECT id, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
     SELECT_NECCESSARY = "SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
@@ -388,3 +393,39 @@ class CookieDatabase:
 
         self.RESULT_AMOUNT = result_amount
         return data
+
+
+    # Checks if the given file exists:   (Could be moved to BACKEND?! -> too complicated?)
+    def checkExistance(self, path, file):
+
+        if path == "sqlite":
+            self.sqlite_location = self.SQLITE_SAVE + file + ".sqlite"
+
+            if os.path.exists(self.sqlite_location):
+                return True
+            else:
+                return False
+        elif path == "transformed":
+            self.csv_location = self.TRANSFORM_PATH + file + ".csv"
+
+            if os.path.exists(self.csv_location):
+                return True
+            else:
+                return False
+        elif path == "csv":
+            self.csv_location = self.CSV_SAVE + file + ".csv"
+
+            if os.path.exists(self.csv_location):
+                return True
+            else:
+                return False
+        elif path == "report":
+            self.csv_location = self.REPORT_SAVE + file + ".csv"
+
+            if os.path.exists(self.csv_location):
+                return True
+            else:
+                return False
+        else:
+            print("FATAL ERROR IN [backend.py] -> checkExistance() method -> UNKNOWN path!")
+            return None

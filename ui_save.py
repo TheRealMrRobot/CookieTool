@@ -123,8 +123,9 @@ class Save():
     # Should look for the requested database -> in local path(es)?
     def searchDatabase(self, event=None):
         self.search_term = self.entry_sqlite.get()
+        self.database = bend.CookieDatabase()
         print("[>] Searching for file '%s.sqlite'..." % self.search_term)
-        self.existing = self.checkExistance("sqlite", self.search_term)
+        self.existing = self.database.checkExistance("sqlite", self.search_term)
 
         if self.existing:
             self.label_status.configure(text="[*] File exists!", fg='green')
@@ -138,37 +139,15 @@ class Save():
             self.CONTROLLER.after(1500, self.label_status.configure(text="", fg='black'))
 
 
-
-    # Checks if the given file exists:   (Could be moved to BACKEND?! -> too complicated?)
-    def checkExistance(self, path, file):
-
-        if path == "sqlite":
-            self.sqlite_location = self.PATH_DATA + file + ".sqlite"
-
-            if os.path.exists(self.sqlite_location):
-                return True
-            else:
-                return False
-        elif path == "csv":
-            self.csv_location = self.PATH_CSV + file + ".csv"
-
-            if os.path.exists(self.csv_location):
-                return True
-            else:
-                return False
-        else:
-            print("FATAL ERROR IN checkExistance() method -> UNKNOWN path!")
-            return None
-
-
     # SAVES & TRANSFORMS data into CSV -> with extra content!
     def saveData(self, event=None):
+        self.database = bend.CookieDatabase()
         self.search_term = self.entry_sqlite.get()
         self.csv_name = self.entry_csv.get()
 
         if (self.csv_name == "") == False:
-            self.existing = self.checkExistance("sqlite", self.search_term)
-            self.csv_existing = self.checkExistance("csv", self.csv_name)
+            self.existing = self.database.checkExistance("sqlite", self.search_term)
+            self.csv_existing = self.database.checkExistance("transformed", self.csv_name)
 
             if self.existing and self.csv_existing == False:
                 self.label_status.configure(text="[*] Saving file...", fg='green')
@@ -199,7 +178,8 @@ class Save():
         self.database = bend.CookieDatabase()
         self.data = self.database.transformToDataFrame(search_term)
         try:
-            self.data.to_csv(self.PATH_CSV + "%s.csv" % csv_name, sep=',', index=False, mode='w+')
+            #self.data.to_csv(self.PATH_CSV + "%s.csv" % csv_name, sep=',', index=False, mode='w+')
+            self.data.to_csv(self.database.TRANSFORM_PATH + "%s.csv" % csv_name, sep=',', index=False, mode='w+')
             print("[*] Saving SUCCESSFULL!")
         except Exception:
             print("ERROR while saving file!")

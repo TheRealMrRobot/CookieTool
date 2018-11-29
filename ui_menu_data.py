@@ -30,7 +30,7 @@ class Data(tk.Frame):
         self.save_text = tk.Label(self, text="Transform Data:", font=self.TT_FONT)
         self.save_button = tk.Button(self, text="Transform", height=1, width=10, font=self.FONT, command=lambda: self.openSaveOptions(controller))
         self.report_text = tk.Label(self, text="Create Data Report:", font=self.TT_FONT)
-        self.report_button = tk.Button(self, text="Report", height=1, width=10, font=self.FONT, command=lambda: self.openReporting())
+        self.report_button = tk.Button(self, text="Report", height=1, width=10, font=self.FONT, command=lambda: self.openReporting(controller))
         self.visual_text = tk.Label(self, text="Visualize Reports:", font=self.TT_FONT)
         self.visual_button = tk.Button(self, text="Visualize", height=1, width=10, font=self.FONT, command=lambda: self.openVizard(controller))
 
@@ -68,9 +68,9 @@ class Data(tk.Frame):
 
 
     # Opens up a new window for creating reports (link to ui_report.py)
-    def openReporting(self):
+    def openReporting(self, controller):
         report_instance = report.Report()
-        report_instance.startReporting()
+        report_instance.startReporting(controller)
 
 
     # Opens up a new window for saving data (link to ui_save.py)
