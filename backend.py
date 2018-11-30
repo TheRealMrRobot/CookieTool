@@ -394,7 +394,6 @@ class CookieDatabase:
         self.RESULT_AMOUNT = result_amount
         return data
 
-
     # Checks if the given file exists:   (Could be moved to BACKEND?! -> too complicated?)
     def checkExistance(self, path, file):
 
@@ -426,6 +425,36 @@ class CookieDatabase:
                 return True
             else:
                 return False
+        else:
+            print("FATAL ERROR IN [backend.py] -> checkExistance() method -> UNKNOWN path!")
+            return None
+
+
+    def loadCSV(self, path, file):
+
+        if path == "transformed":
+            self.csv_location = self.TRANSFORM_PATH + file + ".csv"
+
+            if os.path.exists(self.csv_location):
+                self.file = pd.read_csv(self.csv_location, names=['ID', 'VALUE', 'NAME', 'HOST', 'ACCESSED', 'EXPIRY', 'DURATION', 'SECURE', 'HTTP'], index_col=0)
+                return self.file
+            else:
+                return None
+        elif path == "csv":     # Results of grouping!
+            self.csv_location = self.CSV_SAVE + file + ".csv"
+
+            if os.path.exists(self.csv_location):
+                self.file = pd.read_csv(self.csv_location, names=['ID', 'VALUE', 'NAME', 'HOST', 'ACCESSED', 'EXPIRY', 'SECURE', 'HTTP'], index_col=0)
+                return self.file
+            else:
+                return None
+        # elif path == "report":
+        #     self.csv_location = self.REPORT_SAVE + file + ".csv"
+        #
+        #     if os.path.exists(self.csv_location):
+        #         return True
+        #     else:
+        #         return False
         else:
             print("FATAL ERROR IN [backend.py] -> checkExistance() method -> UNKNOWN path!")
             return None
