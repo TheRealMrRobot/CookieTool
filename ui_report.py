@@ -5,6 +5,7 @@ import backend as bend          # DataBase & Structure
 import ui_menu as Menu
 import ui_menu_data as Data
 import pandas as pd
+from collections import Counter
 
 
 class Report():
@@ -181,36 +182,96 @@ class Report():
         self.data = backend.loadCSV("transformed", input)
         print(self.data)
         self.hosts = self.data['HOST']
-        self.sliced_hosts = []
-        self.sliced_suffixes = []
 
-        for host in self.hosts:
-            print("\n+Complete: " + str(host))
+        self.sliced_hosts = self.sliceHosts(self.hosts)
+        self.sliced_suffixes = self.sliceSuffixes(self.hosts)
+
+        # print("Amount of all Hosts: " + str(self.countEntries(self.hosts))) -> would be wrong : "HOST" is NO Host!
+        print("Amount of all Hosts: " + str(self.countEntries(self.sliced_hosts)))
+
+        # HERE COMES the stuff from website -> COUNT occurrencies!
+        self.unique_hosts = self.getUniqueEntries(self.sliced_hosts)
+        print(self.unique_hosts)
+        print("\n########### O C C U R R E N C I E S ###########")
+        print("Amount unique Hosts: " + str(self.countEntries(self.unique_hosts)))
+        self.host_dict = Counter(self.sliced_hosts)    # Counts the number of occurrencies within the LIST (from unique websites)
+        # print(self.host_dict)
+        for entry in self.unique_hosts:
+            print("%s: %i" % (entry, self.host_dict[entry]))
+
+        self.unique_suffixes = self.getUniqueEntries(self.sliced_suffixes)
+        print(self.unique_suffixes)
+        print("\n########### O C C U R R E N C I E S ###########")
+        print("Amount unique Suffixes: " + str(self.countEntries(self.unique_suffixes)))
+        self.suffix_dict = Counter(self.sliced_suffixes)
+        # print(self.suffix_dict)
+        for entry in self.unique_suffixes:
+            print("%s: %i" % (entry, self.suffix_dict[entry]))
+
+
+
+
+    # Slices URLS and returns only the HOST-PART:
+    def sliceHosts(self, host_list):
+        self.sliced_hosts = []
+
+        for host in host_list:
             self.sliced_list = str(host).split(".")
             if len(self.sliced_list) == 2:
-
                 self.sliced_host = self.sliced_list[0]
-                print("-Site: " + self.sliced_host)
-                self.sliced_suffix = self.sliced_list[1]
-                self.sliced_suffixes.append(self.sliced_suffix)
-                print("-Suffix: " + str(self.sliced_suffix))
                 self.sliced_hosts.append(self.sliced_host)
             elif len(self.sliced_list) == 3:
                 self.sliced_host = self.sliced_list[1]
-                print("-Site: " + self.sliced_host)
-                self.sliced_suffix = self.sliced_list[2]
-                self.sliced_suffixes.append(self.sliced_suffix)
-                print("-Suffix: " + str(self.sliced_suffix))
                 self.sliced_hosts.append(self.sliced_host)
             elif len(self.sliced_list) == 4:
                 self.sliced_host = self.sliced_list[2]
-                print("-Site: " + self.sliced_host)
-                self.sliced_suffix = self.sliced_list[3]
-                self.sliced_suffixes.append(self.sliced_suffix)
-                print("-Suffix: " + str(self.sliced_suffix))
+                self.sliced_hosts.append(self.sliced_host)
+            elif len(self.sliced_list) == 5:
+                self.sliced_host = self.sliced_list[3]
                 self.sliced_hosts.append(self.sliced_host)
 
-        print(self.sliced_hosts)
-        print(self.sliced_suffixes)
-            #if
-        #self.host_data = pd.DataFrame()
+        return self.sliced_hosts
+
+
+    # Slices URLS and returns only the SUFFIX-PART:
+    def sliceSuffixes(self, suffix_list):
+        self.sliced_suffixes = []
+
+        for host in suffix_list:
+            # print("\n+Complete: " + str(host))
+            self.sliced_list = str(host).split(".")
+            if len(self.sliced_list) == 2:
+                self.sliced_suffix = self.sliced_list[1]
+                self.sliced_suffixes.append(self.sliced_suffix)
+            elif len(self.sliced_list) == 3:
+                self.sliced_suffix = self.sliced_list[2]
+                self.sliced_suffixes.append(self.sliced_suffix)
+            elif len(self.sliced_list) == 4:
+                self.sliced_suffix = self.sliced_list[3]
+                self.sliced_suffixes.append(self.sliced_suffix)
+            elif len(self.sliced_list) == 5:
+                self.sliced_suffix = self.sliced_list[4]
+                self.sliced_suffixes.append(self.sliced_suffix)
+
+        return self.sliced_suffixes
+
+
+    # Counts the number of elements in a list   ( COULD ALSO USE len(entry_list))
+    def countEntries(self, entry_list):
+        amount = 0
+
+        for entry in entry_list:
+            amount += 1
+
+        return amount
+
+
+    # RETURNS only UNIQUE elements of a list (STRINGS)
+    def getUniqueEntries(self, entry_list):
+        self.unique_hosts = []
+
+        for host in entry_list:
+            if host not in self.unique_hosts:
+                self.unique_hosts.append(host)
+
+        return self.unique_hosts
