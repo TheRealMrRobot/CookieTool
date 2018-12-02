@@ -178,6 +178,29 @@ class Report():
 
     # Does the REAL report creation!
     def createReport(self, input, output):
+        # Just for the moment (could be read from seperate file one day)
+        visited_hosts = ["google", "youtube", "amazon", "facebook", "ebay", "web", "instagram", "spiegel", "t-online", "bild",]
+        known_trackers = ['doubleclick',
+                          'twimg',
+                          'usa',
+                          'imrworldwide',
+                          'scoredcardresearch',
+                          'facebook',
+                          'atwola',
+                          'advertising',
+                          'adtechus',
+                          'adnxs',
+                          'quantserve',
+                          'adsrvr',
+                          'openx',
+                          'videohub',
+                          'stickyadstv',
+                          'googleadservice',
+                          'googleusercontent',
+                          'ebaystatic',
+                          'ebayrtm',
+                          'bluekai',]
+
         backend = bend.CookieDatabase()
         self.data = backend.loadCSV("transformed", input)
         print(self.data)
@@ -194,19 +217,38 @@ class Report():
         print(self.unique_hosts)
         print("\n########### O C C U R R E N C I E S ###########")
         print("Amount unique Hosts: " + str(self.countEntries(self.unique_hosts)))
-        self.host_dict = Counter(self.sliced_hosts)    # Counts the number of occurrencies within the LIST (from unique websites)
-        # print(self.host_dict)
-        for entry in self.unique_hosts:
-            print("%s: %i" % (entry, self.host_dict[entry]))
 
+        # HOST SAVING AND HANDLING:
+        self.host_dict = Counter(self.sliced_hosts)    # Counts the number of occurrencies within the LIST (from unique websites)
+        self.sorted_host_dict = {}
+        # SORT the list here! -> Better for VIZUALIZATION!
+        for value in sorted(self.host_dict.items(), key=lambda x: x[1]):
+            self.sorted_host_dict[value[0]] = self.host_dict[value[0]]
+        self.host_df = pd.DataFrame.from_dict(self.sorted_host_dict, orient='index').reset_index()
+        self.host_df.to_csv(backend.REPORT_SAVE + 'host_count_%s.csv' % output, header=["HOST", "AMOUNT"], sep=',', index=False, mode='w+')
+        print("[+] WROTE new hostname CSV to host_count_%s.csv" % output)
+        print(self.host_df)
+        # print(self.host_dict)
+        # for entry in self.unique_hosts:
+        #     print("%s: %i" % (entry, self.host_dict[entry]))
+
+        # SUFFIX SAVING AND HANDLING:
         self.unique_suffixes = self.getUniqueEntries(self.sliced_suffixes)
         print(self.unique_suffixes)
         print("\n########### O C C U R R E N C I E S ###########")
         print("Amount unique Suffixes: " + str(self.countEntries(self.unique_suffixes)))
         self.suffix_dict = Counter(self.sliced_suffixes)
+        self.sorted_suffix_dict = {}
+
+        for value in sorted(self.suffix_dict.items(), key=lambda x: x[1]):
+            self.sorted_suffix_dict[value[0]] = self.suffix_dict[value[0]]
+        self.suffix_df = pd.DataFrame.from_dict(self.sorted_suffix_dict, orient='index').reset_index()
+        self.suffix_df.to_csv(backend.REPORT_SAVE + 'suffix_count_%s.csv' % output, header=["SUFFIX", "AMOUNT"], sep=',', index=False, mode='w+')
+        print("[+] WROTE new hostname CSV to suffix_count_%s.csv" % output)
+        print(self.suffix_df)
         # print(self.suffix_dict)
-        for entry in self.unique_suffixes:
-            print("%s: %i" % (entry, self.suffix_dict[entry]))
+        # for entry in self.unique_suffixes:
+        #     print("%s: %i" % (entry, self.suffix_dict[entry]))
 
 
 
