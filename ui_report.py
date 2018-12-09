@@ -241,22 +241,44 @@ class Report():
         self.saveDict(self.tracker_dict, "tracker", output)       # Save the dict (SORTED!)
         print("\n[5] Amount of all Tracking Cookies: " + str(self.countEntries(self.tracker)))
 
-
-        # HERE COMES the stuff from website -> COUNT occurrencies!
+        ####### CSV CREATION: ###############################################################################
+        print("\n\n #########  [6.] FILE-Creation:  #########\n")
+        # COUNT unique HOSTS (occurrencies)
         self.unique_hosts = self.getUniqueEntries(self.sliced_hosts)
         print("\n########### O C C U R R E N C I E S ###########")
-        print("[6] Amount unique Hosts: " + str(self.countEntries(self.unique_hosts)))
+        self.count_hosts = str(self.countEntries(self.unique_hosts))
+        print("[6] Amount unique Hosts: " + self.count_hosts)
         print(self.unique_hosts)
 
-        # SUFFIX SAVING AND HANDLING:
+        # COUNT unique HOSTS (occurrencies)
         self.unique_suffixes = self.getUniqueEntries(self.sliced_suffixes)
         print("\n########### O C C U R R E N C I E S ###########")
-        print("[7] Amount unique Suffixes: " + str(self.countEntries(self.unique_suffixes)))
+        self.count_suffixes = str(self.countEntries(self.unique_suffixes))
+        print("[7] Amount unique Suffixes: " + self.count_suffixes)
         print(self.unique_suffixes)
 
+        # COUNT unique 1st COOKIES (occurrencies)
+        self.unique_cook1st = self.getUniqueEntries(self.cook1st)
+        print("\n########### O C C U R R E N C I E S ###########")
+        self.count_cook1st = str(self.countEntries(self.unique_cook1st))
+        print("[8] Amount unique 1st Party Cookies: " + self.count_cook1st)
+        print(self.unique_cook1st)
 
+        # COUNT unique 3rd COOKIES (occurrencies)
+        self.unique_cook3rd = self.getUniqueEntries(self.cook3rd)
+        print("\n########### O C C U R R E N C I E S ###########")
+        self.count_cook3rd = str(self.countEntries(self.unique_cook3rd))
+        print("[9] Amount unique 3rd Party Cookies: " + self.count_cook3rd)
+        print(self.unique_cook3rd)
 
+        # COUNT unique TRACKER (occurrencies)
+        self.unique_tracker = self.getUniqueEntries(self.tracker)
+        print("\n########### O C C U R R E N C I E S ###########")
+        self.count_tracker = str(self.countEntries(self.unique_tracker))
+        print("[10] Amount unique Tracking Cookies: " + self.count_tracker)
+        print(self.unique_tracker)
 
+        self.saveInfoAsCSV(self.count_hosts, self.count_suffixes, self.count_cook1st, self.count_cook3rd, self.count_tracker, output)
 
 
     # Slices URLS and returns only the HOST-PART:
@@ -360,3 +382,15 @@ class Report():
                 self.unique_hosts.append(host)
 
         return self.unique_hosts
+
+
+    # SAVES the unique (count) INFO into a CSV-File!
+    def saveInfoAsCSV(self, host, suffix, cook1st, cook3rd, tracker, name):
+        backend = bend.CookieDatabase()
+        info_list = [host, suffix, cook1st, cook3rd, tracker]
+        info_columns = ["HOST-COUNT", "SUFFIX-COUNT", "COOK1st-COUNT", "COOK3rd-COUNT", "TRACKER-COUNT"]
+        self.unique_info = pd.DataFrame(columns=info_columns, index=None)
+        self.unique_info.loc[0] = info_list
+        self.unique_info.to_csv(backend.REPORT_SAVE + "unique/unique_info_%s.csv" % name, header=info_columns, sep=',', index=False, mode='w+')
+        print("\n[+] WROTE new UNIQUE-INFO_CSV to unique_info_%s.csv\n" % (name))
+        print(self.unique_info)

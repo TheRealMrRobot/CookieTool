@@ -94,7 +94,6 @@ class Save():
         self.entry_csv.bind("<Return>", self.saveData)
 
 
-
     # Generic WINDOW-CREATOR
     def createNewWindow(self, x_movement, y_movement, title, width, height):
         root = tk.Tk()
