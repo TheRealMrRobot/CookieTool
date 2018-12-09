@@ -16,10 +16,43 @@ class Report():
     BACKGROUND_COLOR = "palegreen"
     CONTROLLER = None
 
+    visited_hosts = ["google",
+                     "youtube",
+                     "amazon",
+                     "facebook",
+                     "ebay",
+                     "web",
+                     "instagram",
+                     "spiegel",
+                     "t-online",
+                     "bild"]
+
+    known_tracker = ['doubleclick',
+                     'twimg',
+                     'usa',
+                     'imrworldwide',
+                     'scoredcardresearch',
+                     'facebook',
+                     'atwola',
+                     'advertising',
+                     'adtechus',
+                     'adnxs',
+                     'quantserve',
+                     'adsrvr',
+                     'openx',
+                     'videohub',
+                     'stickyadstv',
+                     'googleadservice',
+                     'googleusercontent',
+                     'ebaystatic',
+                     'ebayrtm',
+                     'bluekai']
+
     def __init__(self):
         pass
 
 
+    # OPENS a new WINDOW!
     def startReporting(self, controller):
         window = self.createNewWindow(0, -50, "Reports", 800, 440)
         window.configure(background=self.BACKGROUND_COLOR)
@@ -71,7 +104,6 @@ class Report():
         self.entry_name.bind("<Return>", self.startReportCreation)
 
 
-
     # Generic WINDOW-CREATOR
     def createNewWindow(self, x_movement, y_movement, title, width, height):
         root = tk.Tk()
@@ -92,7 +124,6 @@ class Report():
         root.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
         return root
-
 
 
     # Should check if a CSV is existing:
@@ -122,8 +153,6 @@ class Report():
             self.CONTROLLER.after(1500, self.label_message.configure(text="", fg='black'))
 
 
-
-
     # Should create a report for certain sites.. (DOES NOTHING at the moment)
     def startReportCreation(self, event=None):
         self.database = bend.CookieDatabase()
@@ -141,7 +170,6 @@ class Report():
             self.CONTROLLER.after(200, self.label_message.configure(text="[*] Saving SUCCESSFULL!", fg='green'))
             self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
             self.CONTROLLER.after(1500, self.label_message.configure(text="", fg='black'))
-
 
 
     # Checks, if both fields of the REPORT-WINDOW are valid. -> If not, warnings are displayed.
@@ -176,79 +204,57 @@ class Report():
         return False
 
 
-    # Does the REAL report creation!
+    # Does the REAL report creation! (-> MULTIPLE FILES!)
     def createReport(self, input, output):
-        # Just for the moment (could be read from seperate file one day)
-        visited_hosts = ["google", "youtube", "amazon", "facebook", "ebay", "web", "instagram", "spiegel", "t-online", "bild",]
-        known_trackers = ['doubleclick',
-                          'twimg',
-                          'usa',
-                          'imrworldwide',
-                          'scoredcardresearch',
-                          'facebook',
-                          'atwola',
-                          'advertising',
-                          'adtechus',
-                          'adnxs',
-                          'quantserve',
-                          'adsrvr',
-                          'openx',
-                          'videohub',
-                          'stickyadstv',
-                          'googleadservice',
-                          'googleusercontent',
-                          'ebaystatic',
-                          'ebayrtm',
-                          'bluekai',]
-
         backend = bend.CookieDatabase()
         self.data = backend.loadCSV("transformed", input)
         print(self.data)
         self.hosts = self.data['HOST']
 
-        self.sliced_hosts = self.sliceHosts(self.hosts)
-        self.sliced_suffixes = self.sliceSuffixes(self.hosts)
+        # HOST SAVING AND HANDLING:
+        self.sliced_hosts = self.sliceHosts(self.hosts)         # Slice Hosts
+        self.host_dict = Counter(self.sliced_hosts)             # Counts the number of occurrencies within the LIST (from unique websites)
+        self.saveDict(self.host_dict, "host", output)           # Save the dist (SORTED!)
+        print("\n[1] Amount of all Hosts: " + str(self.countEntries(self.sliced_hosts)))
 
-        # print("Amount of all Hosts: " + str(self.countEntries(self.hosts))) -> would be wrong : "HOST" is NO Host!
-        print("Amount of all Hosts: " + str(self.countEntries(self.sliced_hosts)))
+        # GET suffix dict out of sliced_suffixes and SAVE data:
+        self.sliced_suffixes = self.sliceSuffixes(self.hosts)   # Slice Suffixes
+        self.suffix_dict = Counter(self.sliced_suffixes)        # Counts the number of occurrencies within the LIST (from unique websites)
+        self.saveDict(self.suffix_dict, "suffix", output)       # Save the dict (SORTED!)
+        print("\n[2] Amount of all Suffixes: " + str(self.countEntries(self.sliced_suffixes)))
+
+        # GET matching "entries" from database ():
+        self.cook1st = self.findMatching(self.sliced_hosts, self.visited_hosts)
+        self.cook1st_dict = Counter(self.cook1st)
+        self.saveDict(self.cook1st_dict, "cook1st", output)       # Save the dict (SORTED!)
+        print("\n[3] Amount of all 1st Party Cookies: " + str(self.countEntries(self.cook1st)))
+
+        # GET matching "entries" from database ():
+        self.cook3rd = self.findNotMatching(self.sliced_hosts, self.visited_hosts)
+        self.cook3rd_dict = Counter(self.cook3rd)
+        self.saveDict(self.cook3rd_dict, "cook3rd", output)       # Save the dict (SORTED!)
+        print("\n[4] Amount of all 3rd Party Cookies: " + str(self.countEntries(self.cook3rd)))
+
+        # GET matching "entries" from database ():
+        self.tracker = self.findMatching(self.sliced_hosts, self.known_tracker)
+        self.tracker_dict = Counter(self.tracker)
+        self.saveDict(self.tracker_dict, "tracker", output)       # Save the dict (SORTED!)
+        print("\n[5] Amount of all Tracking Cookies: " + str(self.countEntries(self.tracker)))
+
 
         # HERE COMES the stuff from website -> COUNT occurrencies!
         self.unique_hosts = self.getUniqueEntries(self.sliced_hosts)
-        print(self.unique_hosts)
         print("\n########### O C C U R R E N C I E S ###########")
-        print("Amount unique Hosts: " + str(self.countEntries(self.unique_hosts)))
-
-        # HOST SAVING AND HANDLING:
-        self.host_dict = Counter(self.sliced_hosts)    # Counts the number of occurrencies within the LIST (from unique websites)
-        self.sorted_host_dict = {}
-        # SORT the list here! -> Better for VIZUALIZATION!
-        for value in sorted(self.host_dict.items(), key=lambda x: x[1]):
-            self.sorted_host_dict[value[0]] = self.host_dict[value[0]]
-        self.host_df = pd.DataFrame.from_dict(self.sorted_host_dict, orient='index').reset_index()
-        self.host_df.to_csv(backend.REPORT_SAVE + 'host_count_%s.csv' % output, header=["HOST", "AMOUNT"], sep=',', index=False, mode='w+')
-        print("[+] WROTE new hostname CSV to host_count_%s.csv" % output)
-        print(self.host_df)
-        # print(self.host_dict)
-        # for entry in self.unique_hosts:
-        #     print("%s: %i" % (entry, self.host_dict[entry]))
+        print("[6] Amount unique Hosts: " + str(self.countEntries(self.unique_hosts)))
+        print(self.unique_hosts)
 
         # SUFFIX SAVING AND HANDLING:
         self.unique_suffixes = self.getUniqueEntries(self.sliced_suffixes)
-        print(self.unique_suffixes)
         print("\n########### O C C U R R E N C I E S ###########")
-        print("Amount unique Suffixes: " + str(self.countEntries(self.unique_suffixes)))
-        self.suffix_dict = Counter(self.sliced_suffixes)
-        self.sorted_suffix_dict = {}
+        print("[7] Amount unique Suffixes: " + str(self.countEntries(self.unique_suffixes)))
+        print(self.unique_suffixes)
 
-        for value in sorted(self.suffix_dict.items(), key=lambda x: x[1]):
-            self.sorted_suffix_dict[value[0]] = self.suffix_dict[value[0]]
-        self.suffix_df = pd.DataFrame.from_dict(self.sorted_suffix_dict, orient='index').reset_index()
-        self.suffix_df.to_csv(backend.REPORT_SAVE + 'suffix_count_%s.csv' % output, header=["SUFFIX", "AMOUNT"], sep=',', index=False, mode='w+')
-        print("[+] WROTE new hostname CSV to suffix_count_%s.csv" % output)
-        print(self.suffix_df)
-        # print(self.suffix_dict)
-        # for entry in self.unique_suffixes:
-        #     print("%s: %i" % (entry, self.suffix_dict[entry]))
+
 
 
 
@@ -306,6 +312,43 @@ class Report():
             amount += 1
 
         return amount
+
+
+    # Saves a dictionary (ordered by AMOUNT -> most is at bottom)
+    def saveDict(self, dict, type, name):
+        backend = bend.CookieDatabase()
+        sorted_dict = {}
+
+        # SORT the list here! -> Better for VIZUALIZATION!   (SORTING FOR >AMOUNT<)
+        for value in sorted(dict.items(), key=lambda x: x[1]):
+            sorted_dict[value[0]] = dict[value[0]]
+        self.df = pd.DataFrame.from_dict(sorted_dict, orient='index').reset_index()
+        self.df.to_csv(backend.REPORT_SAVE + '%s/%s_count_%s.csv' % (type, type, name), header=["HOST", "AMOUNT"], sep=',', index=False, mode='w+')
+        print("[+] WROTE new %sname CSV to %s_count_%s.csv\n" % (type, type, name))
+        print(self.df)
+        #return self.df             # Only if needed -> not sure
+
+
+    # RETURNS only hosts that have been visited! (ALSO multiple times! -> Neccessary for counter!)
+    def findMatching(self, hosts, visited):
+        self.matching = []
+
+        for host in hosts:
+            if host in visited:
+                self.matching.append(host)
+
+        return self.matching
+
+
+    # RETURNS only hosts that were not directly visited (3rd Party (+ Tracker!))
+    def findNotMatching(self, hosts, visited):
+        self.unmatching = []
+
+        for host in hosts:
+            if host not in visited:
+                self.unmatching.append(host)
+
+        return self.unmatching
 
 
     # RETURNS only UNIQUE elements of a list (STRINGS)

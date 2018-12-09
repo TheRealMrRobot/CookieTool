@@ -13,9 +13,6 @@ import ui_menu_data as data
 
 
 # self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
-
-
-
 class Save():
 
     H_FONT = ("Verdana", 24, 'bold')
@@ -179,7 +176,7 @@ class Save():
         self.data = self.database.transformToDataFrame(search_term)
         try:
             #self.data.to_csv(self.PATH_CSV + "%s.csv" % csv_name, sep=',', index=False, mode='w+')
-            self.data.to_csv(self.database.TRANSFORM_PATH + "%s.csv" % csv_name, sep=',', index=False, mode='w+')
+            self.data.to_csv(self.database.TRANSFORM_PATH + "%s.csv" % csv_name, sep=';', index=False, mode='w+')
             print("[*] Saving SUCCESSFULL!")
         except Exception:
             print("ERROR while saving file!")
