@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+matplotlib.use("TkAgg")
 
 REPORT_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
 
@@ -33,5 +34,5 @@ def makeBarChart(path, type, name, title):
     plt.ylabel("Amount")
     plt.show()
 
-makeBarChart(REPORT_PATH, "unique", "vm_standard04", "UNIQUE INFO")
+# makeBarChart(REPORT_PATH, "unique", "vm_standard04", "UNIQUE INFO")
 #makePieChart()

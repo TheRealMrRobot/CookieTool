@@ -6,6 +6,7 @@ import ui_group as group
 import ui_report as report
 import ui_menu_info as info
 import ui_save as save
+import ui_visual as visual
 
 
 ################################################################################
@@ -79,5 +80,7 @@ class Data(tk.Frame):
         save_instance.startSaveOptions(controller)
 
 
+    # Open a new Window for VISUALIZING data!
     def openVizard(self, controller):
-        pass
+        visual_instance = visual.Visual()
+        visual_instance.startVisualization(controller)
