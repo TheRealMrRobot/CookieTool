@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-matplotlib.use("TkAgg")
+# matplotlib.use("TkAgg")
 
 REPORT_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
 

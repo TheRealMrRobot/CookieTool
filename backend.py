@@ -11,24 +11,42 @@ import os
 class CookieDatabase:
 
     # Some PATHES:
-    PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"           # LIVE PATH - MacBook Air
+    #PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"           # LIVE PATH - MacBook Air
     TEST_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/backup/"
     CSV_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv/"
     SQLITE_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
     REPORT_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
     TRANSFORM_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
 
+
+    # IMPORTANT PATHES: (GOOGLE)
+    SETTINGS = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/settings/settings.txt"
+    AMAZON_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/amazon.sqlite"
+    BILD_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/bild.sqlite"
+    GOOGLE_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/google.sqlite"
+    TONLINE_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/tonline.sqlite"
+    WEB_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/web.sqlite"
+    EBAY_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/ebay.sqlite"
+    CLOSED_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/bild.sqlite"
+    TEST_02 = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_01/test02.sqlite"
+
+
     # SQL:
     SELECT_ALL = "SELECT * FROM moz_cookies"
     SELECT_COMPLETE = "SELECT id, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
     SELECT_NECCESSARY = "SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
-    SELECT_IMPORTANT = "SELECT name, host, isSecure FROM moz_cookies;"
+    SELECT_IMPORTANT = "SELECT name, host, isSecure FROM moz_cookies"
     SELECT_SOMETHING = "SELECT * FROM moz_cookies"
     RESULT_AMOUNT = 0
 
 
     def __init__(self):
-        pass
+        # self.PATH = self.CLOSED_PATH
+        self.PATH = self.TEST_02
+        #pass
+        # file = open(self.SETTINGS, 'r')
+        # self.PATH = self.PATH + str(file.read())
+        #file.close()
         # Print info
         #self.printDatabase()
 
@@ -73,7 +91,7 @@ class CookieDatabase:
 
     # Saves the most important Data
     def saveImportantDatabase(self):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         data_list = []
@@ -89,7 +107,7 @@ class CookieDatabase:
 
     # Saves the complete Data
     def saveCompleteDatabase(self):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
         db = c.execute(self.SELECT_COMPLETE)
         data_list = []
@@ -105,7 +123,7 @@ class CookieDatabase:
 
     # Returns a String with INFO
     def getInfo(self):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         entry_counter = 0
@@ -141,7 +159,7 @@ class CookieDatabase:
 
     # Returns a String with INFO -> R E P O R T
     def getReport(self):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
         db = c.execute(self.SELECT_IMPORTANT)
         entry_counter = 0
@@ -194,7 +212,7 @@ class CookieDatabase:
 
     # Returns a String with DATABASE
     def getDatabase(self):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
         db = c.execute(self.SELECT_COMPLETE)
         database_string = "ID \t| NAME \t\t\t\t| HOST \t\t\t\t| LAST ACCESSED\t\t\t| EXPIRATION  \t\t\t |SECURE| HTTP \n"
@@ -217,7 +235,7 @@ class CookieDatabase:
 
     # Returns a String with all INFO for a SINGLE given ID:
     def getSelectedEntryInfo(self, filter, text):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
         self.find_this = text
 
@@ -253,7 +271,7 @@ class CookieDatabase:
 
     # Returns only matching results for any given String (ID, NAME, HOST)
     def getSelectedEntries(self, filter, text):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
         self.find_this = text
         result_amount = 0
@@ -346,7 +364,7 @@ class CookieDatabase:
 
 
     def makeCSV(self, filter, text):
-        conn = sqlite3.connect(self.PATH + "cookies.sqlite")
+        conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
         self.find_this = text
         result_amount = 0
@@ -436,8 +454,8 @@ class CookieDatabase:
             self.csv_location = self.TRANSFORM_PATH + file + ".csv"
 
             if os.path.exists(self.csv_location):
-                self.file = pd.read_csv(self.csv_location, names=['ID', 'VALUE', 'NAME', 'HOST', 'ACCESSED', 'EXPIRY', 'DURATION', 'SECURE', 'HTTP'], index_col=0)
-                return self.file
+                self.file = pd.read_csv(self.csv_location, names=['ID', 'VALUE', 'NAME', 'HOST', 'ACCESSED', 'EXPIRY', 'DURATION', 'SECURE', 'HTTP'], sep=";", index_col=0)
+                return self.file.fillna('')
             else:
                 return None
         elif path == "csv":     # Results of grouping!

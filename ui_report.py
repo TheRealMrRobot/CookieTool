@@ -226,6 +226,8 @@ class Report():
         # GET matching "entries" from database ():
         self.cook1st = self.findMatching(self.sliced_hosts, self.visited_hosts)
         self.cook1st_dict = Counter(self.cook1st)
+        print("COOK1st: ######### T E S T ##########")
+        print(self.cook1st)
         self.saveDict(self.cook1st_dict, "cook1st", output)       # Save the dict (SORTED!)
         print("\n[3] Amount of all 1st Party Cookies: " + str(self.countEntries(self.cook1st)))
 
@@ -341,13 +343,26 @@ class Report():
         backend = bend.CookieDatabase()
         sorted_dict = {}
 
-        # SORT the list here! -> Better for VIZUALIZATION!   (SORTING FOR >AMOUNT<)
-        for value in sorted(dict.items(), key=lambda x: x[1]):
-            sorted_dict[value[0]] = dict[value[0]]
-        self.df = pd.DataFrame.from_dict(sorted_dict, orient='index').reset_index()
-        self.df.to_csv(backend.REPORT_SAVE + '%s/%s_count_%s.csv' % (type, type, name), header=["HOST", "AMOUNT"], sep=',', index=False, mode='w+')
-        print("[+] WROTE new %sname CSV to %s_count_%s.csv\n" % (type, type, name))
-        print(self.df)
+        if len(dict) > 1:
+            # SORT the list here! -> Better for VIZUALIZATION!   (SORTING FOR >AMOUNT<)
+            for value in sorted(dict.items(), key=lambda x: x[1]):
+                if dict[value[0]] != "":
+                    sorted_dict[value[0]] = dict[value[0]]
+                else:
+                    sorted_dict[value[0]] = "0"
+        elif len(dict) == 1:
+            for value in sorted(dict.items(), key=lambda x: x[1]):
+                    sorted_dict[value[0]] = dict[value[0]]
+        else:
+            sorted_dict = None
+
+        try:
+            self.df = pd.DataFrame(columns=["HOST", "AMOUNT"]).from_dict(sorted_dict, orient='index').reset_index()
+            self.df.to_csv(backend.REPORT_SAVE + '%s/%s_count_%s.csv' % (type, type, name), header=["HOST", "AMOUNT"], sep=',', index=False, mode='w+')
+            print("[+] WROTE new %sname CSV to %s_count_%s.csv\n" % (type, type, name))
+            print(self.df)
+        except Exception:
+            print("%s of %sdict could not be saved! -> No Cookies found in here!" % (type, name))
         #return self.df             # Only if needed -> not sure
 
 
@@ -383,6 +398,10 @@ class Report():
 
         return self.unique_hosts
 
+
+    # GENERATES empty cols for saveDict() -> neccessary only for 1st, 3rd and Tracker -> NO tracker, no number! ( how to handle? )
+    def generateSpecialInfo(self, dict):
+        pass
 
     # SAVES the unique (count) INFO into a CSV-File!
     def saveInfoAsCSV(self, host, suffix, cook1st, cook3rd, tracker, name):

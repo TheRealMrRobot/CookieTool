@@ -193,20 +193,30 @@ class Visual():
 
 
     def showSuffix(self):
-        viz.makeVerticalPieChart(self.REPORT_PATH, "suffix", "vm_standard04", "Suffixes")
+        self.name = self.entry_name.get()
+        if self.name != "":
+            viz.makeVerticalPieChart(self.REPORT_PATH, "suffix", self.name, "Suffixes")
 
 
     def showFirst(self):
-        viz.makeVerticalPieChart(self.REPORT_PATH, "cook1st", "vm_standard04", "1st Party")
+        self.name = self.entry_name.get()
+        if self.name != "":
+            viz.makeVerticalPieChart(self.REPORT_PATH, "cook1st", self.name, "1st Party")
 
 
     def showThird(self):
-        viz.makeVerticalPieChart(self.REPORT_PATH, "cook3rd", "vm_standard04", "3rd Party")
+        self.name = self.entry_name.get()
+        if self.name != "":
+            viz.makeVerticalPieChart(self.REPORT_PATH, "cook3rd", self.name, "3rd Party")
 
 
     def showTracker(self):
-        viz.makeVerticalPieChart(self.REPORT_PATH, "tracker", "vm_standard04", "Tracker")
+        self.name = self.entry_name.get()
+        if self.name != "":
+            viz.makeVerticalPieChart(self.REPORT_PATH, "tracker", self.name, "Tracker")
 
 
     def showUnique(self):
-        viz.makeBarChart(self.REPORT_PATH, "unique", "vm_standard04", "UNIQUE INFO")
+        self.name = self.entry_name.get()
+        if self.name != "":
+            viz.makeBarChart(self.REPORT_PATH, "unique", self.name, "UNIQUE INFO")

@@ -3,6 +3,7 @@ import ui_menu as Menu
 import ui_menu_info as Info
 import ui_menu_delete as Delete
 import ui_menu_data as Data
+import ui_menu_setting as Setting
 
 ################################################################################
 #   G U I
@@ -34,7 +35,7 @@ class Structure(tk.Tk):
         self.frames = {}
 
         # ADD new windows / frames HERE:    <-------  F R A M E S
-        for F in (Menu.Menu, Info.Info, Delete.Delete, Data.Data):
+        for F in (Menu.Menu, Info.Info, Delete.Delete, Data.Data, Setting.Settings):
             # A new Frame that is created as a StartPage object (other class)
             frame = F(container, self)
             # Add the frame to the dictionary
