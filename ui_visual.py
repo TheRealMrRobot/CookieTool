@@ -140,11 +140,12 @@ class Visual():
         self.tracker_existing = self.database.checkExistance("report", "tracker/tracker_count_" + self.search_term)
         self.unique_existing = self.database.checkExistance("report", "unique/unique_info_" + self.search_term)
 
-        if self.host_existing and self.suffix_existing and self.cook1st_existing and self.cook3rd_existing and self.tracker_existing and self.unique_existing:
+        # if self.host_existing and self.suffix_existing and self.cook1st_existing and self.cook3rd_existing and self.tracker_existing and self.unique_existing:
+        if self.host_existing:
             self.label_name.configure(text="[*] File exists!", fg='green')
             self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
             print("[*] File exists!\n")
-            self.CONTROLLER.after(1500, self.label_name.configure(text="", fg='black'))
+            self.CONTROLLER.after(1500, self.label_name.configure(text="Name:", fg='black'))
         else:
             self.label_name.configure(text="[X] File not found!", fg='red')
             self.CONTROLLER.update()
