@@ -15,7 +15,7 @@ class CookieDatabase:
     #PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"           # LIVE PATH - MacBook Air
     TEST_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/backup/"
     CSV_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv/"
-    SQLITE_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
+    SQLITE_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"        # CHANGE this one on your computer REST should work!
     REPORT_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
     TRANSFORM_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
 
@@ -54,7 +54,7 @@ class CookieDatabase:
             # self.changeable_path.close()
 
 
-    # RELOADS the Path after the file "settings.txt" was altered
+    # RELOADS the Path after the file "settings.txt" was altered in the Settings Menu
     def reload_path(self):
         self.BASE_DIR = self.SQLITE_SAVE
         self.changeable_path = open(self.SETTINGS, 'r')
