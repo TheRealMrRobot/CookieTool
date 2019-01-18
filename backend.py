@@ -47,10 +47,10 @@ class CookieDatabase:
         self.changeable_path = open(self.SETTINGS, 'r')
         self.FILE_TO_READ = self.changeable_path.read()
         if self.changeable_path:
-            print("[INIT] Initialising DATABASE...")
-            print("[*] MAIN_EVENT: Did load DATABASE from: " + str(self.changeable_path.name))
+            #print("[INIT] Initialising DATABASE...")
             self.PATH = os.path.join(self.BASE_DIR, self.FILE_TO_READ)
-            print("[!] PATH from Settings to SQLITE file is: " + self.PATH + "\n\n")
+            print("[LOOKUP] DATABASE from: " + str(self.changeable_path.name))
+
             # self.changeable_path.close()
 
 
@@ -61,6 +61,8 @@ class CookieDatabase:
         self.FILE_TO_READ = self.changeable_path.read()
         if self.changeable_path:
             self.PATH = os.path.join(self.BASE_DIR, self.FILE_TO_READ)
+            print("[UPDATE] Updating DATABASE...")
+            print("[INFO] UPDATED SQLITE-PATH: " + self.FILE_TO_READ + "\n")
 
 
     # Shows info about the cookie-data (TERMINAL)
