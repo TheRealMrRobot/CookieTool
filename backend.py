@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import datetime as dt
 import os
+import os.path
 
 
 ################################################################################
@@ -32,23 +33,34 @@ class CookieDatabase:
 
 
     # SQL:
-    SELECT_ALL = "SELECT * FROM moz_cookies"
-    SELECT_COMPLETE = "SELECT id, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
-    SELECT_NECCESSARY = "SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"
-    SELECT_IMPORTANT = "SELECT name, host, isSecure FROM moz_cookies"
-    SELECT_SOMETHING = "SELECT * FROM moz_cookies"
+    SELECT_ALL = """SELECT * FROM moz_cookies"""
+    SELECT_COMPLETE = """SELECT id, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"""
+    SELECT_NECCESSARY = """SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"""
+    SELECT_IMPORTANT = """SELECT name, host, isSecure FROM moz_cookies"""
+    SELECT_SOMETHING = """SELECT * FROM moz_cookies"""
     RESULT_AMOUNT = 0
 
 
     def __init__(self):
-        # self.PATH = self.CLOSED_PATH
-        self.PATH = self.TEST_02
-        #pass
-        # file = open(self.SETTINGS, 'r')
-        # self.PATH = self.PATH + str(file.read())
-        #file.close()
-        # Print info
-        #self.printDatabase()
+
+        self.BASE_DIR = self.SQLITE_SAVE
+        self.changeable_path = open(self.SETTINGS, 'r')
+        self.FILE_TO_READ = self.changeable_path.read()
+        if self.changeable_path:
+            print("[INIT] Initialising DATABASE...")
+            print("[*] MAIN_EVENT: Did load DATABASE from: " + str(self.changeable_path.name))
+            self.PATH = os.path.join(self.BASE_DIR, self.FILE_TO_READ)
+            print("[!] PATH from Settings to SQLITE file is: " + self.PATH + "\n\n")
+            # self.changeable_path.close()
+
+
+    # RELOADS the Path after the file "settings.txt" was altered
+    def reload_path(self):
+        self.BASE_DIR = self.SQLITE_SAVE
+        self.changeable_path = open(self.SETTINGS, 'r')
+        self.FILE_TO_READ = self.changeable_path.read()
+        if self.changeable_path:
+            self.PATH = os.path.join(self.BASE_DIR, self.FILE_TO_READ)
 
 
     # Shows info about the cookie-data (TERMINAL)
@@ -81,7 +93,7 @@ class CookieDatabase:
                 unsecure += 1
 
             #print(row)
-
+        conn.close()
         print("\n\n[-] ENTRIES in Database: " + str(entry_counter))
         print("[-] THIRD-PARTY Cookies: " + str(name_counter))
         print("[-] SITE Cookies: " + str(site_counter))
@@ -103,6 +115,7 @@ class CookieDatabase:
         data = pd.DataFrame(data_list, columns=['name', 'HOST', 'SECURE'])
         data.to_csv(self.CSV_SAVE + "important_cookie_data.csv", sep=',', index=False)
         print("[*] SAVED IMPORTANT DATA: ~/data/important_cookie_data.csv")
+        conn.close()
 
 
     # Saves the complete Data
@@ -119,6 +132,7 @@ class CookieDatabase:
         data = pd.DataFrame(data_list, columns=['ID', 'name', 'HOST', 'EXPIRY', 'LAST_ACCESSED', 'SECURE', 'HTTP_ONLY'])
         data.to_csv(self.CSV_SAVE + "complete_cookie_data.csv", sep=',', index=False)
         print("[*] SAVED COMPLETE DATA: ~/data/complete_cookie_data.csv")
+        conn.close()
 
 
     # Returns a String with INFO
@@ -150,6 +164,7 @@ class CookieDatabase:
             else:
                 unsecure += 1
 
+        conn.close()
         return ("\n[-] TOTAL Cookies: " + str(entry_counter) +
                 "\n[-] UNIQUE Cookies: " + str(unique_counter) +
                 "\n[-] UNIQUE Sites: " + str(site_counter) +
@@ -201,6 +216,7 @@ class CookieDatabase:
         for site in sites:
             sites_string += site + "\n"
 
+        conn.close()
         return ("TOTAL Cookies: " + str(entry_counter) +
                 "\nUNIQUE Cookies: " + str(unique_counter) +
                 "\nUNIQUE Sites: " + str(site_counter) +
@@ -214,6 +230,7 @@ class CookieDatabase:
     def getDatabase(self):
         conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
+
         db = c.execute(self.SELECT_COMPLETE)
         database_string = "ID \t| NAME \t\t\t\t| HOST \t\t\t\t| LAST ACCESSED\t\t\t| EXPIRATION  \t\t\t |SECURE| HTTP \n"
         database_string += "#######################################################################################################################################\n"
@@ -230,6 +247,7 @@ class CookieDatabase:
                               + str(ex_date) + " \t\t\t# " + str(row[5]) + " \t\t# " + str(row[6]) + "\n")
             database_string += "--------#-------------------------------#-------------------------------#-----------------------#------------------------#------#-----\n"
 
+        conn.close()
         return database_string
 
 
@@ -266,6 +284,7 @@ class CookieDatabase:
             result_string += "<VALUE: \t\t" + str(db[1]) + "\n"
             print("[!] RESULT: \n############\n" + result_string)
 
+        conn.close()
         return result_string
 
 
@@ -312,6 +331,7 @@ class CookieDatabase:
 
         self.RESULT_AMOUNT = result_amount
         #print(database_string)
+        conn.close()
         return database_string
 
 
@@ -360,6 +380,7 @@ class CookieDatabase:
 
 
         self.RESULT_AMOUNT = result_amount
+        conn.close()
         return data
 
 
@@ -410,6 +431,7 @@ class CookieDatabase:
 
 
         self.RESULT_AMOUNT = result_amount
+        conn.close()
         return data
 
     # Checks if the given file exists:   (Could be moved to BACKEND?! -> too complicated?)

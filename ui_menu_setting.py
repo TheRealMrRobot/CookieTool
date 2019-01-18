@@ -52,7 +52,6 @@ class Settings(tk.Frame):
         self.color = self.BACKGROUND_COLOR
         path = open(self.SETTINGS_PATH, 'r')
         lookup = str(path.read())
-        print(lookup)
         path.close()
         self.save_entry.insert(tk.INSERT, lookup)
 
@@ -64,15 +63,21 @@ class Settings(tk.Frame):
         self.back_button.configure(highlightbackground=self.color)
 
         print("[DESIGN] DATA DESIGN COLOR: %s" % self.color)
+        print("[D_BASE] DATABASE PATH: ~/%s" % lookup)
 
 
 
 
 
     def applySettings(self, controller):
+        backend = bend.CookieDatabase()
         path = self.save_entry.get()
-        if len(path) >= 40:
-            print("WROTE new Path!")
+        if len(path) >= 19:
+            print("[!] _INFO_ CHANGED Path of SQLITE-File to: " + path)
+            backend.reload_path()
             file = open(self.SETTINGS_PATH, 'w+')
             file.write(path)
             file.close()
+        else:
+            # EVENTUELL hier noch textfeld im GUI ansprechen!
+            print("[X] ERROR! Enter valid path!")
