@@ -23,12 +23,12 @@ class Menu(tk.Frame):
         # INITIALIZATION:
         self.menu_text = tk.Label(self, text="Main Menu", height=3, font=self.H_FONT)
         self.info_text = tk.Label(self, text="Get Cookie Info:", font=self.TT_FONT)
-        self.info_button = tk.Button(self, text="Cookie Data", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Info.Info))
+        self.info_button = tk.Button(self, text="General", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Info.Info))
         self.data_text = tk.Label(self, text="Get Data Insight:", font=self.TT_FONT)
-        self.data_button = tk.Button(self, text="Own Data", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Data.Data))
+        self.data_button = tk.Button(self, text="Insights", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Data.Data))
         self.delete_text = tk.Label(self, text="Delete Cookies:", font=self.TT_FONT)
-        self.delete_button = tk.Button(self, text="Delete Data", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Delete.Delete))
-        self.settings_text = tk.Label(self, text="Choose Path", font=self.TT_FONT)
+        self.delete_button = tk.Button(self, text="Delete", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Delete.Delete))
+        self.settings_text = tk.Label(self, text="Choose File", font=self.TT_FONT)
         self.settings_button = tk.Button(self, text="Settings", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Setting.Settings))
 
         # PACKING:

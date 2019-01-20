@@ -18,18 +18,8 @@ class CookieDatabase:
     SQLITE_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"        # CHANGE this one on your computer REST should work!
     REPORT_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
     TRANSFORM_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
-
-
-    # IMPORTANT PATHES: (GOOGLE)
+    # IMPORTANT PATH: (to the Path defined in SETTINGS)
     SETTINGS = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/settings/settings.txt"
-    AMAZON_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/amazon.sqlite"
-    BILD_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/bild.sqlite"
-    GOOGLE_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/google.sqlite"
-    TONLINE_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/tonline.sqlite"
-    WEB_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/web.sqlite"
-    EBAY_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/ebay.sqlite"
-    CLOSED_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_00/bild.sqlite"
-    TEST_02 = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/TEST_01/test02.sqlite"
 
 
     # SQL:
@@ -47,11 +37,8 @@ class CookieDatabase:
         self.changeable_path = open(self.SETTINGS, 'r')
         self.FILE_TO_READ = self.changeable_path.read()
         if self.changeable_path:
-            #print("[INIT] Initialising DATABASE...")
             self.PATH = os.path.join(self.BASE_DIR, self.FILE_TO_READ)
-            print("[LOOKUP] DATABASE from: " + str(self.changeable_path.name))
-
-            # self.changeable_path.close()
+            #print("[LOOKUP] DATABASE from: " + str(self.changeable_path.name))
 
 
     # RELOADS the Path after the file "settings.txt" was altered in the Settings Menu
@@ -259,7 +246,7 @@ class CookieDatabase:
         c = conn.cursor()
         self.find_this = text
 
-        # Could be changed according to the needs..
+        # Could be changed according to needs..
         self.SELECT_ID = 'SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly, path FROM moz_cookies WHERE id = %s' % (self.find_this)
         result_string = ""
 
@@ -436,6 +423,7 @@ class CookieDatabase:
         conn.close()
         return data
 
+
     # Checks if the given file exists:   (Could be moved to BACKEND?! -> too complicated?)
     def checkExistance(self, path, file):
 
@@ -490,13 +478,6 @@ class CookieDatabase:
                 return self.file
             else:
                 return None
-        # elif path == "report":
-        #     self.csv_location = self.REPORT_SAVE + file + ".csv"
-        #
-        #     if os.path.exists(self.csv_location):
-        #         return True
-        #     else:
-        #         return False
         else:
             print("FATAL ERROR IN [backend.py] -> checkExistance() method -> UNKNOWN path!")
             return None

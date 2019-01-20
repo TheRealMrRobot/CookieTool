@@ -19,7 +19,7 @@ class Settings(tk.Frame):
     H_FONT = ("Verdana", 24, 'bold')
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
-    BACKGROUND_COLOR = "palegreen"
+    BACKGROUND_COLOR = "azure3"
     SETTINGS_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/settings/settings.txt"
 
     # parent is "Structure"
@@ -65,7 +65,7 @@ class Settings(tk.Frame):
         self.save_button.configure(highlightbackground=self.color)
         self.back_button.configure(highlightbackground=self.color)
 
-        print("[DESIGN] DATA DESIGN COLOR: %s" % self.color)
+        print("[DESIGN] SETTINGS DESIGN COLOR: %s" % self.color)
         print("[D_BASE] DATABASE PATH: ~/%s" % lookup)
 
 

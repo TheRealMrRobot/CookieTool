@@ -27,6 +27,7 @@ class Report():
                      "t-online",
                      "bild"]
 
+    # List of 20 known tracker from: "Measuring Personal Privacy Breaches Using Third-Party Trackers" - Shuford, Erica et al.
     known_tracker = ['doubleclick',
                      'twimg',
                      'usa',
