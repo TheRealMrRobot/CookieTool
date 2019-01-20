@@ -35,6 +35,9 @@ class Group():
 
     # Handles new window
     def openCookieGrouping(self, controller):
+        self.backend_access = bend.CookieDatabase().SETTINGS_CONTENT
+        self.search_label_text = ("Search File - '%s':" % self.backend_access)
+
         self.var_idty = tk.IntVar()
         self.var_name = tk.IntVar()
         self.var_host = tk.IntVar()
@@ -60,7 +63,7 @@ class Group():
         self.var_host.set(0)
 
         # TOP widgets:
-        self.search_label = tk.Label(group_frame_top, text="Search:", font=self.TT_FONT)
+        self.search_label = tk.Label(group_frame_top, text=self.search_label_text, font=self.TT_FONT)
         self.search_field = tk.Entry(group_frame_top, text="", font=self.TT_FONT)
         self.idty_box = tk.Radiobutton(group_frame_mid, text="ID", font=self.TT_FONT, indicatoron=1, value=self.var_idty, width=6, command=lambda: self.checkRadioState("id"))
         self.name_box = tk.Radiobutton(group_frame_mid, text="NAME", font=self.TT_FONT, indicatoron=1, value=self.var_name, width=7, command=lambda: self.checkRadioState("name"))

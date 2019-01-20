@@ -20,6 +20,7 @@ class CookieDatabase:
     TRANSFORM_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
     # IMPORTANT PATH: (to the Path defined in SETTINGS)
     SETTINGS = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/settings/settings.txt"
+    SETTINGS_CONTENT = ""
 
 
     # SQL:
@@ -36,6 +37,7 @@ class CookieDatabase:
         self.BASE_DIR = self.SQLITE_SAVE
         self.changeable_path = open(self.SETTINGS, 'r')
         self.FILE_TO_READ = self.changeable_path.read()
+        self.SETTINGS_CONTENT = self.FILE_TO_READ           # FOR global access of this variable
         if self.changeable_path:
             self.PATH = os.path.join(self.BASE_DIR, self.FILE_TO_READ)
             #print("[LOOKUP] DATABASE from: " + str(self.changeable_path.name))
@@ -46,10 +48,11 @@ class CookieDatabase:
         self.BASE_DIR = self.SQLITE_SAVE
         self.changeable_path = open(self.SETTINGS, 'r')
         self.FILE_TO_READ = self.changeable_path.read()
+        self.SETTINGS_CONTENT = self.FILE_TO_READ           # FOR global access of this variable
         if self.changeable_path:
             self.PATH = os.path.join(self.BASE_DIR, self.FILE_TO_READ)
-            print("[UPDATE] Updating DATABASE...")
-            print("[INFO] UPDATED SQLITE-PATH: " + self.FILE_TO_READ + "\n")
+            print("\n[UPDATE] Updating DATABASE...")
+            print("[INFO] UPDATED SQLITE-PATH: '~/%s'\n" % self.FILE_TO_READ)
 
 
     # Shows info about the cookie-data (TERMINAL)
