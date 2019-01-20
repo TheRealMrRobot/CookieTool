@@ -66,7 +66,7 @@ app.title("Cookie Data - Menu")
 #app.name("Cookle")
 
 w = 420 # width for the Tk root
-h = 380 # height for the Tk root
+h = 430 # height for the Tk root
 
 # get screen width and height
 ws = app.winfo_screenwidth() # width of the screen

@@ -38,6 +38,8 @@ class Info(tk.Frame):
         self.group_button = tk.Button(self, text="Group", font=self.FONT, width=10, command=lambda: self.createCookieGrouping(controller))
         self.show_label = tk.Label(self, text="Specific Cookie Information:", font=self.TT_FONT)
         self.show_button = tk.Button(self, text="Info", font=self.FONT, width=10, command=lambda: self.showInfo())
+        self.general_label = tk.Label(self, text="Quantitative Information:", font=self.TT_FONT)
+        self.general_info = tk.Button(self, text="Numbers", font=self.FONT, width=10, command=lambda: self.generalInfo())
         self.back_button = tk.Button(self, text="< Back", font=self.FONT, width=10, command=lambda: controller.show_frame(menu.Menu))
 
         self.setDesign()
@@ -49,7 +51,9 @@ class Info(tk.Frame):
         self.group_button.pack()
         self.show_label.pack()
         self.show_button.pack()
-        self.back_button.pack(pady=30)
+        self.general_label.pack()
+        self.general_info.pack()
+        self.back_button.pack(pady=29)
 
 
     # Changes the color of all elements in current window
@@ -62,6 +66,8 @@ class Info(tk.Frame):
         self.show_button.configure(highlightbackground=self.color)
         self.load_label.configure(background=self.color)
         self.load_button.configure(highlightbackground=self.color)
+        self.general_label.configure(background=self.color)
+        self.general_info.configure(highlightbackground=self.color)
         self.back_button.configure(highlightbackground=self.color)
         self.group_label.configure(background=self.color)
         self.group_button.configure(highlightbackground=self.color)
@@ -89,7 +95,6 @@ class Info(tk.Frame):
         self.search_entry = tk.Entry(info_frame_top, text="", font=self.TT_FONT)
         self.search_button = tk.Button(info_frame_sub, text="Search", font=self.FONT, width=10, command=lambda: self.searchEntry())
         self.result_space = tk.Text(info_frame_bot)
-        self.general_info = tk.Button(info_frame_bot, text="General Info", font=self.FONT, width=10, command=lambda: self.generalInfo())
 
 
         info_win.configure(background=self.BACKGROUND_COLOR)
@@ -103,13 +108,11 @@ class Info(tk.Frame):
         self.search_entry.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.search_button.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.result_space.configure(highlightbackground=self.BACKGROUND_COLOR, height=14, width=60, state=tk.NORMAL)
-        self.general_info.configure(highlightbackground=self.BACKGROUND_COLOR)
 
         self.info_label.pack()
         self.search_entry.pack()
         self.search_button.pack(pady=5)
         self.result_space.pack(expand=False)
-        self.general_info.pack()
 
         self.search_entry.bind('<Return>', self.searchEntry)
 
@@ -140,8 +143,6 @@ class Info(tk.Frame):
             self.textField.configure(highlightbackground=self.color)
             self.textField.pack()
             self.DATA_LOADED = True
-            #self.database.saveImportantDatabase()
-            #self.database.saveCompleteDatabase()
             self.textField.insert(tk.INSERT, self.database.getInfo())
         else:
             info_win = self.createNewWindow(725, "Info", 420, 320)

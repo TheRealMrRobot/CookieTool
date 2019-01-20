@@ -76,6 +76,7 @@ class Existing():
     def loadFiles(self):
         self.list = os.listdir(self.FILE_DIR)
         self.count = 0
+        self.files = []
         self.folders = []
         self.result_string = ""
 
@@ -83,11 +84,19 @@ class Existing():
         for element in self.list:
             if os.path.isdir(self.FILE_DIR + element):
                 self.folders.append(element)
+            elif os.path.isfile(self.FILE_DIR + element):
+                self.files.append(element)
+
+        # SHOW Files from PARENT folder:
+        self.result_string += "[*] PARENT-FOLDER:\n"
+        for file in sorted(self.files):
+            self.result_string += " * %s\n" % file
+        self.result_string += "\n"
 
         # WALK all folders in all DIRS (sorted):
         for folder in sorted(self.folders):
             self.list = os.listdir(self.FILE_DIR + folder)
-            self.result_string += "[*] FOLDER '~/%s':\n" % folder
+            self.result_string += "[*] SUB-FOLDER '~/%s':\n" % folder
 
             for elem in sorted(self.list):
                 self.result_string += " * %s\n" % elem

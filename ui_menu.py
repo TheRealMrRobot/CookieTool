@@ -28,7 +28,7 @@ class Menu(tk.Frame):
         self.data_button = tk.Button(self, text="Insights", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Data.Data))
         self.delete_text = tk.Label(self, text="Delete Cookies:", font=self.TT_FONT)
         self.delete_button = tk.Button(self, text="Delete", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Delete.Delete))
-        self.settings_text = tk.Label(self, text="Choose File", font=self.TT_FONT)
+        self.settings_text = tk.Label(self, text="Choose File:", font=self.TT_FONT)
         self.settings_button = tk.Button(self, text="Settings", height=1, width=10, font=self.FONT, command=lambda: controller.show_frame(Setting.Settings))
 
         # PACKING:
