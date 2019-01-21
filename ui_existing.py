@@ -8,7 +8,9 @@ class Existing():
 
     # CHANGE those 2 according to your system:
     FILE_DIR = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
+    REPORT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
     SQL_DIR = "~/firefox_data"
+    CSV_DIR = "~/reports"
 
     H_FONT = ("Verdana", 24, 'bold')
     FONT = ("Verdana", 24)
@@ -48,6 +50,38 @@ class Existing():
         self.entry_file.pack()
 
         self.loadFiles()
+
+
+    # Opens up a window for showing existing files in the SQL_DIR
+    def openExistingReports(self, controller, color):
+        self.CONTROLLER = controller
+        self.BACKGROUND_COLOR = color
+        window2 = self.createNewWindow(0, -50, "Existing Reports", 300, 400)
+        window2.configure(background=self.BACKGROUND_COLOR)
+        self.info_message2 = "in folder %s:" % self.CSV_DIR
+
+        self.frame2 = tk.Frame(window2)
+        # Frames (6 - 3 nested in Frame1 & 1 per other frame)
+
+        # TOP:
+        self.label_file2 = tk.Label(self.frame2, text="Available Reports", font=self.FONT)
+        self.label_path2 = tk.Label(self.frame2, text=self.info_message2, font=self.TT_FONT)
+        self.scrollbar2 = tk.Scrollbar(self.frame2)
+        self.entry_file2 = tk.Text(self.frame2, yscrollcommand=self.scrollbar2.set)
+
+        self.frame2.configure(background=self.BACKGROUND_COLOR)
+        self.label_file2.configure(background=self.BACKGROUND_COLOR)
+        self.label_path2.configure(background=self.BACKGROUND_COLOR)
+        self.scrollbar2.configure(activebackground=self.BACKGROUND_COLOR, command=self.entry_file2.yview)
+        self.entry_file2.configure(highlightbackground=self.BACKGROUND_COLOR, height=30, width=40, state=tk.NORMAL)
+
+        self.frame2.pack()
+        self.label_file2.pack()
+        self.label_path2.pack()
+        self.scrollbar2.pack(side=tk.RIGHT, fill=tk.Y)
+        self.entry_file2.pack()
+
+        self.loadReports()
 
 
     # Generic WINDOW-CREATOR
@@ -104,3 +138,38 @@ class Existing():
             self.result_string += "\n"
 
         self.entry_file.insert(tk.INSERT, self.result_string)
+
+
+
+    # Load files and display them!
+    def loadReports(self):
+        self.list = os.listdir(self.REPORT_DIR)
+        self.count = 0
+        self.files = []
+        self.folders = []
+        self.result_string = ""
+
+        # GET all folders in the BASE_DIR:
+        for element in self.list:
+            if os.path.isdir(self.REPORT_DIR + element):
+                self.folders.append(element)
+            elif os.path.isfile(self.REPORT_DIR + element):
+                self.files.append(element)
+
+        # SHOW Files from PARENT folder:
+        self.result_string += "[*] PARENT-FOLDER:\n"
+        for file in sorted(self.files):
+            self.result_string += " * %s\n" % file
+        self.result_string += "\n"
+
+        # WALK all folders in all DIRS (sorted):
+        for folder in sorted(self.folders):
+            self.list = os.listdir(self.REPORT_DIR + folder)
+            self.result_string += "[*] SUB-FOLDER '~/%s':\n" % folder
+
+            for elem in sorted(self.list):
+                self.result_string += " * %s\n" % elem
+
+            self.result_string += "\n"
+
+        self.entry_file2.insert(tk.INSERT, self.result_string)

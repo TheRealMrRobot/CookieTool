@@ -6,6 +6,7 @@ import ui_group as group
 import ui_report as report
 import ui_menu_data as data
 import visualization as viz
+import ui_existing as existing
 
 ################################################################################
 # S A V E
@@ -33,7 +34,7 @@ class Visual():
 
     # Opens up a window for saving data (and selecting which)
     def startVisualization(self, controller):
-        window = self.createNewWindow(0, -50, "Vizual. Data", 650, 350)
+        window = self.createNewWindow(0, -50, "Vizual. Data", 650, 420)
         window.configure(background=self.BACKGROUND_COLOR)
         self.CONTROLLER = controller
 
@@ -45,12 +46,11 @@ class Visual():
 
 
         # TOP:
-        self.label_name = tk.Label(save_frame_left_top, text="Name:", font=self.FONT)
+        self.label_name = tk.Label(save_frame_left_top, text="Report Name:", font=self.FONT)
+        self.label_info = tk.Label(save_frame_left_top, text="(Enter name after '..count_' without .csv)", font=self.TT_FONT)
         self.entry_name = tk.Entry(save_frame_left_top, text="", font=self.FONT)
-        self.button_name = tk.Button(save_frame_left_top, text="OK", font=self.FONT, width=10, command=lambda: self.searchDatabase())
-        # self.label_chart = tk.Label(save_frame_right_top, text="Chart Name:", font=self.FONT)
-        # self.entry_chart = tk.Entry(save_frame_right_top, text="", font=self.FONT)
-        # self.button_chart = tk.Button(save_frame_right_top, text="OK", font=self.FONT, width=10, command=lambda: self.searchDatabase())
+        self.button_name = tk.Button(save_frame_left_top, text="Use Report", font=self.FONT, width=10, command=lambda: self.searchDatabase())
+        self.button_existing = tk.Button(save_frame_left_top, text="Show Files", font=self.FONT, width=10, command=lambda: self.showExistingReports(controller))
 
         # Self:
         self.button_host = tk.Button(save_frame_bot, text="Host", font=self.FONT, width=10, command=lambda: self.showHost())
@@ -68,11 +68,10 @@ class Visual():
 
 
         self.label_name.configure(background=self.BACKGROUND_COLOR)
+        self.label_info.configure(background=self.BACKGROUND_COLOR)
         self.entry_name.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.button_name.configure(highlightbackground=self.BACKGROUND_COLOR)
-        # self.label_chart.configure(background=self.BACKGROUND_COLOR)
-        # self.entry_chart.configure(highlightbackground=self.BACKGROUND_COLOR)
-        # self.button_chart.configure(highlightbackground=self.BACKGROUND_COLOR)
+        self.button_existing.configure(highlightbackground=self.BACKGROUND_COLOR)
 
         self.button_host.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.button_suffix.configure(highlightbackground=self.BACKGROUND_COLOR)
@@ -89,11 +88,10 @@ class Visual():
 
 
         self.label_name.pack()
+        self.label_info.pack()
         self.entry_name.pack()
         self.button_name.pack()
-        # self.label_chart.pack()
-        # self.entry_chart.pack()
-        # self.button_chart.pack()
+        self.button_existing.pack()
 
         self.button_host.pack()
         self.button_suffix.pack()
@@ -103,7 +101,6 @@ class Visual():
         self.button_unique.pack()
 
         self.entry_name.bind("<Return>", self.searchDatabase)
-        self.entry_chart.bind("<Return>", self.saveData)
 
 
     # Generic WINDOW-CREATOR
@@ -145,13 +142,17 @@ class Visual():
             self.label_name.configure(text="[*] File exists!", fg='green')
             self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
             print("[*] File exists!\n")
-            self.CONTROLLER.after(1500, self.label_name.configure(text="Name:", fg='black'))
+            self.CONTROLLER.after(1500, self.label_name.configure(text="Report Name:", fg='black'))
         else:
             self.label_name.configure(text="[X] File not found!", fg='red')
             self.CONTROLLER.update()
             print("[X] ERROR! File not found!\n")
-            self.CONTROLLER.after(1500, self.label_name.configure(text="Name:", fg='black'))
+            self.CONTROLLER.after(1500, self.label_name.configure(text="Report Name:", fg='black'))
 
+
+    def showExistingReports(self, controller):
+        files = existing.Existing()
+        files.openExistingReports(controller, self.BACKGROUND_COLOR)
 
     # SAVES & TRANSFORMS data into CSV -> with extra content!
     def saveData(self, event=None):
