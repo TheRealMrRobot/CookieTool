@@ -103,6 +103,10 @@ class Group():
         self.csv_field.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.csv_button.configure(highlightbackground=self.BACKGROUND_COLOR)
 
+        self.idty_box.deselect()
+        self.name_box.deselect()
+        self.host_box.select()
+
         # TOP widgets:
         self.search_label.pack()
         self.search_field.pack()
