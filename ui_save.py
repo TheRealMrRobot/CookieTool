@@ -12,7 +12,7 @@ import ui_menu_data as data
 ################################################################################
 
 
-# self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
+# self.CONTROLLER.update()            # CONTROLLER is the key to "THREADING"!
 class Save():
 
     H_FONT = ("Verdana", 24, 'bold')
@@ -22,6 +22,7 @@ class Save():
     PATH = "/users/Maxi/Desktop/atom/python/bachelor/tracking/"
     PATH_CSV = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
     PATH_DATA = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
+    SHORT_PATH = "firefox_data"
     PATH_APP = "/users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/"
     CONTROLLER = None
 
@@ -38,6 +39,7 @@ class Save():
 
         # Frames (6 - 3 nested in Frame1 & 1 per other frame)
         save_frame_top = tk.Frame(window)
+        save_frame_top_top = tk.Frame(save_frame_top)
         save_frame_left_top = tk.Frame(save_frame_top)
         save_frame_mid_top = tk.Frame(save_frame_top)
         save_frame_right_top = tk.Frame(save_frame_top)
@@ -46,7 +48,8 @@ class Save():
 
 
         # TOP:
-        self.label_sqlite = tk.Label(save_frame_left_top, text="SQlite:", font=self.FONT)
+        self.info_label = tk.Label(save_frame_top_top, text="Transform SQLite DB in '~/%s'" % self.SHORT_PATH, font=self.FONT)
+        self.label_sqlite = tk.Label(save_frame_left_top, text="File:", font=self.FONT)
         self.entry_sqlite = tk.Entry(save_frame_mid_top, text="", font=self.FONT)
         self.button_sqlite = tk.Button(save_frame_right_top, text="Search", font=self.FONT, width=10, command=lambda: self.searchDatabase())
         self.label_status = tk.Label(save_frame_mid, text="", font=self.FONT)
@@ -56,7 +59,7 @@ class Save():
         self.entry_csv = tk.Entry(save_frame_bot, text="", font=self.TT_FONT)
         self.button_csv = tk.Button(save_frame_bot, text="Save .csv", font=self.FONT, width=10, command=lambda: self.saveData())
 
-
+        save_frame_top_top.configure(background=self.BACKGROUND_COLOR)
         save_frame_top.configure(background=self.BACKGROUND_COLOR)
         save_frame_left_top.configure(background=self.BACKGROUND_COLOR)
         save_frame_mid_top.configure(background=self.BACKGROUND_COLOR)
@@ -64,7 +67,7 @@ class Save():
         save_frame_mid.configure(background=self.BACKGROUND_COLOR)
         save_frame_bot.configure(background=self.BACKGROUND_COLOR)
 
-
+        self.info_label.configure(background=self.BACKGROUND_COLOR)
         self.label_sqlite.configure(background=self.BACKGROUND_COLOR)
         self.entry_sqlite.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.button_sqlite.configure(highlightbackground=self.BACKGROUND_COLOR)
@@ -75,13 +78,14 @@ class Save():
 
 
         save_frame_top.pack(side=tk.TOP)
+        save_frame_top_top.pack(side=tk.TOP)
         save_frame_left_top.pack(side=tk.LEFT, pady=10)
         save_frame_mid_top.pack(side=tk.LEFT, pady=10)
         save_frame_right_top.pack(side=tk.RIGHT, pady=10)
         save_frame_mid.pack()
         save_frame_bot.pack(side=tk.BOTTOM, pady=5)
 
-
+        self.info_label.pack()
         self.label_sqlite.pack()
         self.entry_sqlite.pack()
         self.button_sqlite.pack()
