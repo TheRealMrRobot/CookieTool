@@ -179,18 +179,24 @@ class Info(tk.Frame):
         if self.DATABASE_LOADED == False:
             data_win.destroy()
             data_win = self.createNewWindow(-650, "Database", 1000, 800)
-            self.textField = tk.Text(data_win)
-            self.textField.configure(highlightbackground=self.color, height=800)
-            self.textField.pack(fill=tk.BOTH)
+            self.scrollbar = tk.Scrollbar(data_win)
+            self.textField = tk.Text(data_win, yscrollcommand=self.scrollbar.set)
+            self.scrollbar.configure(activebackground=self.BACKGROUND_COLOR, command=self.textField.yview)
+            self.textField.configure(highlightbackground=self.color, height=800, width=1000, state=tk.NORMAL)
+            self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            self.textField.pack()
             self.DATABASE_LOADED = True
             self.textField.insert(tk.INSERT, self.database.getDatabase())
         elif 'withdrawn' == data_win.state():
             data_win.destroy()
             self.DATABASE_LOADED = False
             data_win = self.createNewWindow(-650, "Database", 1000, 800)
-            self.textField = tk.Text(data_win)
-            self.textField.configure(highlightbackground=self.color, height=800)
-            self.textField.pack(fill=tk.BOTH)
+            self.scrollbar = tk.Scrollbar(data_win)
+            self.textField = tk.Text(data_win, yscrollcommand=self.scrollbar.set)
+            self.scrollbar.configure(activebackground=self.BACKGROUND_COLOR, command=self.textField.yview)
+            self.textField.configure(highlightbackground=self.color, height=800, width=1000, state=tk.NORMAL)
+            self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            self.textField.pack()
             self.DATABASE_LOADED = True
             self.textField.insert(tk.INSERT, self.database.getDatabase())
 

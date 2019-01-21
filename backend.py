@@ -27,6 +27,7 @@ class CookieDatabase:
     SELECT_ALL = """SELECT * FROM moz_cookies"""
     SELECT_COMPLETE = """SELECT id, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"""
     SELECT_NECCESSARY = """SELECT id, value, name, host, expiry, lastAccessed, isSecure, isHttpOnly FROM moz_cookies"""
+    SELECT_INFO = """SELECT name, host, isSecure, isHttpOnly FROM moz_cookies"""
     SELECT_IMPORTANT = """SELECT name, host, isSecure FROM moz_cookies"""
     SELECT_SOMETHING = """SELECT * FROM moz_cookies"""
     RESULT_AMOUNT = 0
@@ -131,14 +132,16 @@ class CookieDatabase:
     def getInfo(self):
         conn = sqlite3.connect(self.PATH)
         c = conn.cursor()
-        db = c.execute(self.SELECT_IMPORTANT)
+        db = c.execute(self.SELECT_INFO)
         entry_counter = 0
         site_counter = 0
         sites = []
         unique_counter = 0
         unique_names = []
-        secure = 0
-        unsecure = 0
+        secure = 0                      # Flagged TRUE for secure transport of cookie
+        unsecure = 0                    # Flagged FALSE for secure transport of cookie (or no info available)
+        http_only = 0                   # Cookie only accessible via HTTP
+        script_access = 0                        # Cookie Accessible through client side script (or no info available?)
 
         for row in db:
             entry_counter += 1
@@ -156,12 +159,28 @@ class CookieDatabase:
             else:
                 unsecure += 1
 
+            if row[3] == 1:
+                http_only += 1
+            else:
+                script_access += 1
+
+
+        # print("----- UNIQUE COOKIE-NAMES:")
+        # print(unique_names)
+        # print()
+        # print("----- UNIQUE HOSTNAMES")
+        # print(sites)
         conn.close()
-        return ("\n[-] TOTAL Cookies: " + str(entry_counter) +
-                "\n[-] UNIQUE Cookies: " + str(unique_counter) +
-                "\n[-] UNIQUE Sites: " + str(site_counter) +
-                "\n[-] SECURE Cookies: " + str(secure) +
-                "\n[-] UNSCECURE Cookies: " + str(unsecure) + "\n")
+        return ("[#] GENERAL INFO ABOUT COOKIES STORED IN " +
+                "\n['~/%s']:" % self.FILE_TO_READ +
+                "\n--------------------------------------" +
+                "\n[-] TOTAL Cookies: " + str(entry_counter) +
+                "\n[-] UNIQUE Names for Cookies: " + str(unique_counter) +
+                "\n[-] UNIQUE Hostnames for Cookies: " + str(site_counter) +
+                "\n[-] SECURE FLAGGED Cookies: " + str(secure) +
+                "\n[-] UNSCECURE FLAGGED Cookies: " + str(unsecure) +
+                "\n[-] ACCESSIBLE via HTTP-ONLY: " + str(http_only) +
+                "\n[-] ACCESSIBLE via Client Side Scipts: " + str(script_access) + "\n")
 
 
     # Returns a String with INFO -> R E P O R T
@@ -246,6 +265,8 @@ class CookieDatabase:
     # Returns a String with all INFO for a SINGLE given ID:
     def getSelectedEntryInfo(self, filter, text):
         conn = sqlite3.connect(self.PATH)
+        diff = ""
+        duration = ""
         c = conn.cursor()
         self.find_this = text
 
@@ -265,9 +286,12 @@ class CookieDatabase:
             print("[X] NOTHING FOUND!\n")
             return "NOTHING FOUND!\n"
         else:
+            diff = ((dt.datetime.fromtimestamp((db[5] + db[4]) / 1000000)) - (dt.datetime.fromtimestamp(db[5] / 1000000)))
+            duration = divmod(diff.days * 86400 + diff.seconds, 60)
             result_string = "<ID:\t\t" + str(db[0]) + "\n"
             result_string += "<LAST_ACCESS: \t\t" + dt.datetime.fromtimestamp(db[5] / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
             result_string += "<EXPIRATION: \t\t" + dt.datetime.fromtimestamp((db[5] + db[4]) / 1000000).strftime('%d.%m.%Y-%H:%M:%S') + "\n"
+            result_string += "<DURATION: \t\t%s:%smin\n" % (str(duration[0]), str(duration[1]))
             result_string += "<SECURE: \t\t" + str(db[6]) + "\n"
             result_string += "<HTTP: \t\t" + str(db[7]) + "\n"
             result_string += "<HOST: \t\t" + str(db[3]) + "\n"
