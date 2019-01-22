@@ -286,8 +286,19 @@ class Report():
         print("[10] Amount unique Tracking Cookies: " + self.count_tracker)
         print(self.unique_tracker)
 
-        self.saveInfoAsCSV(self.amount_cookies, self.count_hosts, self.count_suffixes, self.count_cook1st, self.count_cook3rd, self.count_tracker, output)
+        self.saveUniqueInfoAsCSV(self.count_hosts, self.count_cook1st, self.count_cook3rd, self.count_tracker, self.count_suffixes, output)
 
+
+        self.total_cookies = str(self.countEntries(self.sliced_hosts))
+        print("\n### N E W ###\nTOTAL COOKIES: %s" % self.total_cookies)
+        self.total_1st = str(self.countEntries(self.cook1st))
+        print("\nTOTAL 1ST PARTY: %s" % self.total_1st)
+        self.total_3rd = str(self.countEntries(self.cook3rd))
+        print("\nTOTAL 3RD PARTY: %s" % self.total_3rd)
+        self.total_tracker = str(self.countEntries(self.tracker))
+        print("\nTOTAL TRACKER: %s" % self.total_tracker)
+
+        self.saveInfoAsCSV(self.total_cookies, self.total_1st, self.total_3rd, self.total_tracker, output)
 
     # Slices URLS and returns only the HOST-PART:
     def sliceHosts(self, host_list):
@@ -409,11 +420,24 @@ class Report():
     def generateSpecialInfo(self, dict):
         pass
 
+
     # SAVES the unique (count) INFO into a CSV-File!
-    def saveInfoAsCSV(self, amount, host, suffix, cook1st, cook3rd, tracker, name):
+    def saveInfoAsCSV(self, amount, cook1st, cook3rd, tracker, name):
         backend = bend.CookieDatabase()
-        info_list = [amount, host, suffix, cook1st, cook3rd, tracker]
-        info_columns = ["AMOUNT", "HOST-COUNT", "SUFFIX-COUNT", "COOK1st-COUNT", "COOK3rd-COUNT", "TRACKER-COUNT"]
+        info_list = [amount, cook1st, cook3rd, tracker]
+        info_columns = ["TOTAL", "COOKIES 1st", "COOKIES 3rd", "TRACKER"]
+        self.unique_info = pd.DataFrame(columns=info_columns, index=None)
+        self.unique_info.loc[0] = info_list
+        self.unique_info.to_csv(backend.REPORT_SAVE + "total/total_info_%s.csv" % name, header=info_columns, sep=',', index=False, mode='w+')
+        print("\n[+] WROTE new UNIQUE-INFO_CSV to total_info_%s.csv\n" % (name))
+        print(self.unique_info)
+
+
+    # SAVES the unique (count) INFO into a CSV-File!
+    def saveUniqueInfoAsCSV(self, host, cook1st, cook3rd, tracker, suffix, name):
+        backend = bend.CookieDatabase()
+        info_list = [host, cook1st, cook3rd, tracker, suffix]
+        info_columns = ["HOSTS", "COOKIES 1st", "COOKIES 3rd", "TRACKER", "SUFFIXES"]
         self.unique_info = pd.DataFrame(columns=info_columns, index=None)
         self.unique_info.loc[0] = info_list
         self.unique_info.to_csv(backend.REPORT_SAVE + "unique/unique_info_%s.csv" % name, header=info_columns, sep=',', index=False, mode='w+')

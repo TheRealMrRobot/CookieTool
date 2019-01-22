@@ -34,7 +34,7 @@ class Visual():
 
     # Opens up a window for saving data (and selecting which)
     def startVisualization(self, controller):
-        window = self.createNewWindow(0, -50, "Vizual. Data", 650, 420)
+        window = self.createNewWindow(0, -50, "Vizual. Data", 650, 450)
         window.configure(background=self.BACKGROUND_COLOR)
         self.CONTROLLER = controller
 
@@ -58,6 +58,7 @@ class Visual():
         self.button_cook1st = tk.Button(save_frame_bot, text="Cook1st", font=self.FONT, width=10, command=lambda: self.showFirst())
         self.button_cook3rd = tk.Button(save_frame_bot, text="Cook3rd", font=self.FONT, width=10, command=lambda: self.showThird())
         self.button_tracker = tk.Button(save_frame_bot, text="Tracker", font=self.FONT, width=10, command=lambda: self.showTracker())
+        self.button_total = tk.Button(save_frame_bot, text="Total", font=self.FONT, width=10, command=lambda: self.showTotal())
         self.button_unique = tk.Button(save_frame_bot, text="Unique", font=self.FONT, width=10, command=lambda: self.showUnique())
 
 
@@ -78,6 +79,7 @@ class Visual():
         self.button_cook1st.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.button_cook3rd.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.button_tracker.configure(highlightbackground=self.BACKGROUND_COLOR)
+        self.button_total.configure(highlightbackground=self.BACKGROUND_COLOR)
         self.button_unique.configure(highlightbackground=self.BACKGROUND_COLOR)
 
 
@@ -98,6 +100,7 @@ class Visual():
         self.button_cook1st.pack()
         self.button_cook3rd.pack()
         self.button_tracker.pack()
+        self.button_total.pack()
         self.button_unique.pack()
 
         self.entry_name.bind("<Return>", self.searchDatabase)
@@ -218,7 +221,13 @@ class Visual():
             viz.makeVerticalPieChart(self.REPORT_PATH, "tracker", self.name, "Tracker")
 
 
+    def showTotal(self):
+        self.name = self.entry_name.get()
+        if self.name != "":
+            viz.makeTotalBarChart(self.REPORT_PATH, "total", self.name, "TOTAL INFO")
+
+
     def showUnique(self):
         self.name = self.entry_name.get()
         if self.name != "":
-            viz.makeBarChart(self.REPORT_PATH, "unique", self.name, "UNIQUE INFO")
+            viz.makeUniqueBarChart(self.REPORT_PATH, "unique", self.name, "UNIQUE INFO")
