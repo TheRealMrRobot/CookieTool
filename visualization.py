@@ -5,20 +5,27 @@ import matplotlib.pyplot as plt
 
 REPORT_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
 
+
+def makePercentage(pct, allvals):
+    absolute = int(round(pct/100.*np.sum(allvals)))
+    # absolute2 = round(pct/100.*np.sum(allvals))
+    # print("ALLVALS: " + str(allvals))
+    # print("SUM ALLVALS: " + str(np.sum(allvals)))
+    # print("ABSOULUTE: " + str(absolute2))
+    return "{:.1f}%\n({:d})".format(pct, absolute)
+
+
 def makeVerticalPieChart(path, type, name, title):
     text = np.loadtxt("%s%s/%s_count_%s.csv" % (path, type, type, name), dtype='str', delimiter=',', usecols=0, skiprows=1)
     b = np.loadtxt("%s%s/%s_count_%s.csv" % (path, type, type, name), dtype='str', delimiter=',', usecols=1, skiprows=1)
     x = np.arange(len(b))
-    plt.pie(b, labels=text, startangle=90, autopct="%1.1f%%")
+    data = [float(num) for num in b]
+    print(data)
+    plt.pie(b, labels=text, startangle=90, autopct=lambda pct: makePercentage(pct, data))
+    #plt.pie(b, labels=text, startangle=90, autopct="%1.1f%%\n(%s)" % b)        # Option without AMOUNT
     plt.title(title)
     plt.show()
     # EVTL: plt.save()
-
-# makeVerticalPieChart(REPORT_PATH, "host", "vm_standard04", "Hosts")
-# makeVerticalPieChart(REPORT_PATH, "suffix", "vm_standard04", "Suffixes")
-# makeVerticalPieChart(REPORT_PATH, "cook1st", "vm_standard04", "1st Party")
-# makeVerticalPieChart(REPORT_PATH, "cook3rd", "vm_standard04", "3rd Party")
-# makeVerticalPieChart(REPORT_PATH, "tracker", "vm_standard04", "Tracker")
 
 #
 def makeBarChart1(path, type, name, title):

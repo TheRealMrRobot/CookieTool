@@ -132,7 +132,7 @@ class Visual():
     def searchDatabase(self, event=None):
         self.search_term = self.entry_name.get()
         self.database = bend.CookieDatabase()
-        print("[>] Searching for file '%s.csv'..." % self.search_term)
+        print("[>] Searching for file '..._count_%s.csv'..." % self.search_term)
         self.host_existing = self.database.checkExistance("report", "host/host_count_" + self.search_term)
         self.suffix_existing = self.database.checkExistance("report", "suffix/suffix_count_" + self.search_term)
         self.cook1st_existing = self.database.checkExistance("report", "cook1st/cook1st_count_" + self.search_term)
