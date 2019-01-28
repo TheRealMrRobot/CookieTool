@@ -58,9 +58,9 @@ class Group():
         group_frame_last.pack()
 
         # VARs for the RADIOBUTTONs:
-        self.var_idty.set(1)
+        self.var_idty.set(0)
         self.var_name.set(0)
-        self.var_host.set(0)
+        self.var_host.set(1)
 
         # TOP widgets:
         self.search_label = tk.Label(group_frame_top, text=self.search_label_text, font=self.TT_FONT)
