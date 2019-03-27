@@ -81,8 +81,9 @@ y = (hs/2) - (h/2)
 #app.iconbitmap(r'/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/pic/Cookie.ico')
 app.geometry('%dx%d+%d+%d' % (w, h, x+560, y-60))
 
+ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
 # V  THIS right here is defining the logo of the app (MAC OS -> Instead of TKinter Feather!)
-img = tk.PhotoImage(file='/Users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/pic/Cookie.gif')
+img = tk.PhotoImage(file=ROOT_DIR + '/tracking/cookies/pic/Cookie.gif')
 app.tk.call('wm', 'iconphoto', app._w, img)
 
 # Run the instance!

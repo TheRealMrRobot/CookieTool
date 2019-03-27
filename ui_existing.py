@@ -6,9 +6,11 @@ import backend as bend          # DataBase & Structure
 
 class Existing():
 
+    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+
     # CHANGE those 2 according to your system:
-    FILE_DIR = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
-    REPORT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
+    FILE_DIR = ROOT_DIR + "/tracking/data/firefox_data/"
+    REPORT_DIR = ROOT_DIR + "/tracking/data/reports/"
     SQL_DIR = "~/firefox_data"
     CSV_DIR = "~/reports"
 

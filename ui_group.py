@@ -9,8 +9,8 @@ import pandas as pd
 
 
 class Group():
-
-    PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv/"
+    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+    PATH = ROOT_DIR + "/tracking/data/csv/"
     DATA_LOADED = False
     DATABASE_LOADED = False
     H_FONT = ("Verdana", 24, 'bold')

@@ -32,7 +32,7 @@ class Report():
                      'twimg',
                      'usa',
                      'imrworldwide',
-                     'scoredcardresearch',
+                     'scorecardresearch',
                      'facebook',
                      'atwola',
                      'advertising',

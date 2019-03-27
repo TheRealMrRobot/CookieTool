@@ -12,15 +12,18 @@ import os.path
 class CookieDatabase:
 
     # Some PATHES:
-    #PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"           # LIVE PATH - MacBook Air
-    TEST_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/backup/"
-    CSV_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/csv/"
-    SQLITE_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"        # CHANGE this one on your computer REST should work!
-    REPORT_SAVE = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
-    TRANSFORM_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
+
+    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+
+    TEST_PATH = ROOT_DIR + "/tracking/backup/"
+    CSV_SAVE = ROOT_DIR + "/tracking/data/csv/"
+    SQLITE_SAVE = ROOT_DIR + "/tracking/data/firefox_data/"        # CHANGE this one on your computer REST should work!
+    REPORT_SAVE = ROOT_DIR + "/tracking/data/reports/"
+    TRANSFORM_PATH = ROOT_DIR + "/tracking/data/transformed_csv/"
     # IMPORTANT PATH: (to the Path defined in SETTINGS)
-    SETTINGS = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/settings/settings.txt"
+    SETTINGS = ROOT_DIR + "/tracking/data/settings/settings.txt"
     SETTINGS_CONTENT = ""
+    #PATH = "/Users/Maxi/Library/Application Support/Firefox/Profiles/atr5e9t3.default-1534499409101/"           # LIVE PATH - MacBook Air
 
 
     # SQL:
@@ -151,6 +154,7 @@ class CookieDatabase:
                 unique_counter += 1
 
             if row[1] not in sites:
+                # print("[%s]\n" % row[1])
                 sites.append(row[1])
                 site_counter += 1
 
@@ -175,8 +179,8 @@ class CookieDatabase:
                 "\n['~/%s']:" % self.FILE_TO_READ +
                 "\n--------------------------------------" +
                 "\n[-] TOTAL Cookies: " + str(entry_counter) +
-                "\n[-] UNIQUE Names for Cookies: " + str(unique_counter) +
-                "\n[-] UNIQUE Hostnames for Cookies: " + str(site_counter) +
+                # "\n[-] UNIQUE Names for Cookies: " + str(unique_counter) +
+                # "\n[-] UNIQUE Hostnames for Cookies: " + str(site_counter) +
                 "\n[-] SECURE FLAGGED Cookies: " + str(secure) +
                 "\n[-] UNSCECURE FLAGGED Cookies: " + str(unsecure) +
                 "\n[-] ACCESSIBLE via HTTP-ONLY: " + str(http_only) +

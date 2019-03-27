@@ -3,7 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 # matplotlib.use("TkAgg")
 
-REPORT_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
+ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+REPORT_PATH = ROOT_DIR + "/tracking/data/reports/"
+plt.rcParams.update({'font.size': 18})
 
 
 def makePercentage(pct, allvals):
@@ -18,10 +20,21 @@ def makePercentage(pct, allvals):
 def makeVerticalPieChart(path, type, name, title):
     text = np.loadtxt("%s%s/%s_count_%s.csv" % (path, type, type, name), dtype='str', delimiter=',', usecols=0, skiprows=1)
     b = np.loadtxt("%s%s/%s_count_%s.csv" % (path, type, type, name), dtype='str', delimiter=',', usecols=1, skiprows=1)
-    x = np.arange(len(b))
-    data = [float(num) for num in b]
-    print(data)
-    plt.pie(b, labels=text, startangle=90, autopct=lambda pct: makePercentage(pct, data))
+    #print(text)
+
+    if len(b.shape) == 0:
+        print("\n\n[!] Only 1 Cookie!\n\n")
+        text = [text]
+        x = np.arange(1)
+        b = [1]
+        data = [1.0]
+        plt.pie(b, labels=text, startangle=90, autopct=None)        # Option without AMOUNT
+    else:
+        x = np.arange(len(b))
+        data = [float(num) for num in b]
+        plt.pie(b, labels=text, startangle=90, autopct=lambda pct: makePercentage(pct, data))
+    #print(data)
+
     #plt.pie(b, labels=text, startangle=90, autopct="%1.1f%%\n(%s)" % b)        # Option without AMOUNT
     plt.title(title)
     plt.show()

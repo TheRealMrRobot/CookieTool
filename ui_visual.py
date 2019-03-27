@@ -15,16 +15,18 @@ import ui_existing as existing
 
 # self.CONTROLLER.update()            # CONTROLLER is the key to THREADING!
 class Visual():
-
     H_FONT = ("Verdana", 24, 'bold')
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
     BACKGROUND_COLOR = "palegreen"
-    PATH = "/users/Maxi/Desktop/atom/python/bachelor/tracking/"
-    PATH_CSV = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
-    PATH_DATA = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
-    PATH_APP = "/users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/"
-    REPORT_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/reports/"
+
+    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+
+    PATH = ROOT_DIR + "/tracking/"
+    PATH_CSV = ROOT_DIR + "/tracking/data/transformed_csv/"
+    PATH_DATA = ROOT_DIR + "/tracking/data/firefox_data/"
+    PATH_APP = ROOT_DIR + "/tracking/cookies/"
+    REPORT_PATH = ROOT_DIR + "/tracking/data/reports/"
     CONTROLLER = None
 
 

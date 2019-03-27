@@ -19,11 +19,14 @@ class Save():
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
     BACKGROUND_COLOR = "palegreen"
-    PATH = "/users/Maxi/Desktop/atom/python/bachelor/tracking/"
-    PATH_CSV = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/transformed_csv/"
-    PATH_DATA = "/users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
+
+    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+
+    PATH = ROOT_DIR + "/tracking/"
+    PATH_CSV = ROOT_DIR + "/tracking/data/transformed_csv/"
+    PATH_DATA = ROOT_DIR + "/tracking/data/firefox_data/"
     SHORT_PATH = "firefox_data"
-    PATH_APP = "/users/Maxi/Desktop/atom/python/bachelor/tracking/cookies/"
+    PATH_APP = ROOT_DIR + "/tracking/cookies/"
     CONTROLLER = None
 
 
@@ -48,7 +51,7 @@ class Save():
 
 
         # TOP:
-        self.info_label = tk.Label(save_frame_top_top, text="Transform SQLite DB in '~/%s'" % self.SHORT_PATH, font=self.FONT)
+        self.info_label = tk.Label(save_frame_top_top, text="Transform SQLite DB from '~/%s'" % self.SHORT_PATH, font=self.FONT)
         self.label_sqlite = tk.Label(save_frame_left_top, text="File:", font=self.FONT)
         self.entry_sqlite = tk.Entry(save_frame_mid_top, text="", font=self.FONT)
         self.button_sqlite = tk.Button(save_frame_right_top, text="Search", font=self.FONT, width=10, command=lambda: self.searchDatabase())

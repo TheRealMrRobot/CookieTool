@@ -21,8 +21,11 @@ class Settings(tk.Frame):
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
     BACKGROUND_COLOR = "azure3"
-    SETTINGS_PATH = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/settings/settings.txt"
-    BASE_DIR = "/Users/Maxi/Desktop/atom/python/bachelor/tracking/data/firefox_data/"
+    
+    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+
+    SETTINGS_PATH = ROOT_DIR + "/tracking/data/settings/settings.txt"
+    BASE_DIR = ROOT_DIR + "/tracking/data/firefox_data/"
     SQL_DIR = "~/firefox_data"
     CONTROLLER = None
 
