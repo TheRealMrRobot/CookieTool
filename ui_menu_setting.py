@@ -21,8 +21,9 @@ class Settings(tk.Frame):
     FONT = ("Verdana", 24)
     TT_FONT = ("Verdana", 16)
     BACKGROUND_COLOR = "azure3"
-    
-    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+
+    ROOT_DIR = bend.CookieDatabase.ROOT_DIR
+    #ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
 
     SETTINGS_PATH = ROOT_DIR + "/tracking/data/settings/settings.txt"
     BASE_DIR = ROOT_DIR + "/tracking/data/firefox_data/"

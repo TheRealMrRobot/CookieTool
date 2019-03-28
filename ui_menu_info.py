@@ -14,7 +14,8 @@ import ui_group as group
 
 # INFO Page
 class Info(tk.Frame):
-    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+    ROOT_DIR = bend.CookieDatabase.ROOT_DIR
+    #ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
     PATH = ROOT_DIR + "/tracking/data/reports/"
     DATA_LOADED = False
     DATABASE_LOADED = False

@@ -1,9 +1,11 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import backend as bend
 # matplotlib.use("TkAgg")
 
-ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+ROOT_DIR = bend.CookieDatabase.ROOT_DIR
+#ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
 REPORT_PATH = ROOT_DIR + "/tracking/data/reports/"
 plt.rcParams.update({'font.size': 18})
 

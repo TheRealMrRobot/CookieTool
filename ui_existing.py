@@ -5,8 +5,8 @@ import backend as bend          # DataBase & Structure
 
 
 class Existing():
-
-    ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
+    ROOT_DIR = bend.CookieDatabase.ROOT_DIR
+    #ROOT_DIR = "/Users/Maxi/Desktop/atom/python/bachelor"
 
     # CHANGE those 2 according to your system:
     FILE_DIR = ROOT_DIR + "/tracking/data/firefox_data/"
